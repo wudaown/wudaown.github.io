@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang=zh>
 <head>
     <meta charset="utf-8">
     
@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/72f96cbajw1f6i2x4wljtj20al09kq3u.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/72f96cbajw1f6i3j0or29j20yb09r3zm.jpg">
 <meta property="og:image" content="http://ww2.sinaimg.cn/large/72f96cbajw1f6i3lb72h3j21as0rygqg.jpg">
-<meta property="og:updated_time" content="2016-08-04T15:25:02.000Z">
+<meta property="og:updated_time" content="2016-08-04T17:02:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Server 2008 R2文件备份杂记">
 <meta name="twitter:description" content="Server 2008 R2文件备份杂记前言两周前公司某员工收到一封伪装成Fedex的邮件，里面包含nemucod病毒的JS代码。因为所有文件都是储存在服务器上面的，直接导致了改员工账户所有可写文件被加密。此处省略一万字，总之文件是恢复过来了。上面也发话了，只好把准备年底在做的备份提前了。
@@ -269,7 +269,7 @@
 <p><img src="http://ww3.sinaimg.cn/large/72f96cbajw1f6i2x4wljtj20al09kq3u.jpg" alt=""></p>
 <p>图中<code>BACKUP DISK</code>就是我的备份虚拟硬盘啦，实际使用下来并没有什么问题除了性能会有所下降之外。</p>
 <p>关于卷影副本，我的理解就是Mac的TM嘛。不知道为什么我某个分区默认有一个VSS副本了，要换位置的时候还不能删除旧的。</p>
-<p><code>vssadmin delete shadowstorage /for=G: /on=G:</code> 也是失败的，Google了一圈之后发现可以尝试一下<code>disk shadow</code> </p>
+<p><code>vssadmin delete shadowstorage /for=G: /on=G:</code> 也是失败的，Google了一圈之后发现可以尝试一下<code>diskshadow</code> </p>
 <p><code>diskshadow</code></p>
 <p><code>list shadows all</code> 这一段的输出我没看明白</p>
 <p><code>delete shadows oldest G:</code></p>
@@ -295,7 +295,7 @@
 
 </div>
 
-    <a data-url="http://www.wdblog.xyz/2016/08/04/server-back/" data-id="cirgiry93000nfdonqmqt9b5o" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://www.wdblog.xyz/2016/08/04/server-back/" data-id="cirgljapn000n5donrkrta40i" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -401,127 +401,12 @@
                 <aside id="sidebar">
    
         
-    <div class="widget-wrap">
-        <h3 class="widget-title">recent</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/08/04/server-back/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/08/04/server-back/" class="title">Server 2008 R2文件备份杂记</a></p>
-                            <p class="item-date"><time datetime="2016-08-04T13:35:29.000Z" itemprop="datePublished">2016-08-04</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2015/08/09/2015-08-09-road-bike-defy5/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2015/08/09/2015-08-09-road-bike-defy5/" class="title">入手第一辆公路车 Giant Defy 5 2016</a></p>
-                            <p class="item-date"><time datetime="2015-08-09T05:32:55.000Z" itemprop="datePublished">2015-08-09</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2015/08/09/2015-08-09-iPod-Classic/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2015/08/09/2015-08-09-iPod-Classic/" class="title">iPod Classic 复活记</a></p>
-                            <p class="item-date"><time datetime="2015-08-09T05:22:31.000Z" itemprop="datePublished">2015-08-09</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/" class="title">Beautifulsoup &amp; requests 简单应用</a></p>
-                            <p class="item-date"><time datetime="2015-08-06T15:57:30.000Z" itemprop="datePublished">2015-08-06</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2015/08/01/2015-08-01--Preview-vim-binding/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2015/08/01/2015-08-01--Preview-vim-binding/" class="title">Preview vim binding</a></p>
-                            <p class="item-date"><time datetime="2015-08-01T05:42:30.000Z" itemprop="datePublished">2015-08-01</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-    
-        
     
         
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">2</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">tags</h3>
-        <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/amd/">amd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/efi/">efi</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medic/">medic</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/">nas</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/urllib/">urllib</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vm/">vm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zip/">zip</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/医院/">医院</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/救护/">救护</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/显卡/">显卡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">2</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">2</span></li></ul>
         </div>
     </div>
 
