@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Beautifulsoup &amp; requests 简单应用 | WDBLOG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="故事这次的故事是这样的，应某友要求要下载某种类型漫画。
+丢过来一枚网站，让我下载全部中文漫画算了下大概有2000+本的样子。
+手动太麻烦了，还是写脚本吧
+过程之前都是用urllib和re模块完成的抓站。
+这次换换口味用beautifulsoup和requests来抓。
+第一件事情当然安装beautifulsoup，安装过程并不顺利，翻了一下官网才知道原来改名了。
+123pip3.4 install">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Beautifulsoup & requests 简单应用">
+<meta property="og:url" content="http://www.wdblog.xyz/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/index.html">
+<meta property="og:site_name" content="WDBLOG">
+<meta property="og:description" content="故事这次的故事是这样的，应某友要求要下载某种类型漫画。
+丢过来一枚网站，让我下载全部中文漫画算了下大概有2000+本的样子。
+手动太麻烦了，还是写脚本吧
+过程之前都是用urllib和re模块完成的抓站。
+这次换换口味用beautifulsoup和requests来抓。
+第一件事情当然安装beautifulsoup，安装过程并不顺利，翻了一下官网才知道原来改名了。
+123pip3.4 install">
+<meta property="og:updated_time" content="2016-08-04T15:26:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Beautifulsoup & requests 简单应用">
+<meta name="twitter:description" content="故事这次的故事是这样的，应某友要求要下载某种类型漫画。
+丢过来一枚网站，让我下载全部中文漫画算了下大概有2000+本的样子。
+手动太麻烦了，还是写脚本吧
+过程之前都是用urllib和re模块完成的抓站。
+这次换换口味用beautifulsoup和requests来抓。
+第一件事情当然安装beautifulsoup，安装过程并不顺利，翻了一下官网才知道原来改名了。
+123pip3.4 install">
+    
+
+    
+        <link rel="alternate" href="/" title="WDBLOG" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">WDBLOG</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://i.imgur.com/fMwQDsN.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Entradas',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://i.imgur.com/fMwQDsN.jpg" />
+            <h2 id="name">wudaown</h2>
+            <h3 id="title">以在家上班为目标</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Singapore</span>
+            <a id="follow" target="_blank" href="https://github.com/wudaown/">SEGUIR</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                14
+                <span>Entradas</span>
+            </div>
+            <div class="article-info-block">
+                16
+                <span>Etiquetas</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/wudaown" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-2015-08-06-Beautifulsoup-requests-简单应用" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Beautifulsoup &amp; requests 简单应用
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/">
+            <time datetime="2015-08-06T15:57:30.000Z" itemprop="datePublished">2015-08-06</time>
+        </a>
+    </div>
+
+
+                        
+                        
+                    </div>
+                
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="故事"><a href="#故事" class="headerlink" title="故事"></a>故事</h2><p>这次的故事是这样的，应某友要求要下载某种类型漫画。</p>
+<p>丢过来一枚网站，让我下载全部中文漫画算了下大概有2000+本的样子。</p>
+<p>手动太麻烦了，还是写脚本吧</p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>之前都是用urllib和re模块完成的抓站。</p>
+<p>这次换换口味用beautifulsoup和requests来抓。</p>
+<p>第一件事情当然安装beautifulsoup，安装过程并不顺利，翻了一下官网才知道原来改名了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">pip3.4 install beautifulsoup4</div><div class="line">bpython</div><div class="line">from bs4 import BeautifulSoup as bs</div></pre></td></tr></table></figure>
+<p>这样用我毕竟习惯。</p>
+<p>另外为了更好的解析，可以选择安装lxml。</p>
+<p>之前在看某wifi密码查询工具的时候就安装过了，没有安装的安装一下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip3.4 install lxml</div></pre></td></tr></table></figure>
+<p>这里主要记录一下今天用到的几个method</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">soup = bs(r.text,<span class="string">'lxml'</span>)</div><div class="line">link = soup.find_all(<span class="string">'h2'</span>) <span class="comment"># bs4 查找全部h2 tag</span></div><div class="line"></div><div class="line">page = pagesoup.find(attrs=&#123;<span class="string">'class'</span>:<span class="string">'wp-pagenavi'</span>&#125;) <span class="comment"># 查找指定attrs</span></div><div class="line"></div><div class="line">int(page.contents[<span class="number">0</span>].contents[<span class="number">-3</span>].string) <span class="comment"># 某tag里面的children contents输入NavigableString转换int</span></div><div class="line"></div><div class="line">imgsoup.findAll(<span class="string">'img'</span>) <span class="comment"># find_all 另外一个method</span></div></pre></td></tr></table></figure>
+<p>上述就是今天用到的了，bs还是很强大的，更多的内容还是参考<a href="http://www.crummy.com/software/BeautifulSoup/bs4/doc/#beautiful-soup-documentation" target="_blank" rel="external">Beautiful Soup Documentation</a>吧。</p>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>这里我就直接贴代码了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/local/bin/python3.4</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line">__author__ = <span class="string">'wudaown'</span></div><div class="line"></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment">#   应朋友要求做了一个脚本从 www.177pic.info/ 下载所有中文漫画</span></div><div class="line"><span class="comment">#   已经挂服务器上面慢慢跑了，没有上面用处，一次性的东西</span></div><div class="line"><span class="comment"># </span></div><div class="line"></div><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</div><div class="line"><span class="keyword">from</span> io <span class="keyword">import</span> BytesIO</div><div class="line"><span class="keyword">import</span> os</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getSource</span><span class="params">(url)</span>:</span>     <span class="comment"># 读取完整页面 返回一个漫画名称和下载地址的mapping</span></div><div class="line">    r = requests.get(url)</div><div class="line">    soup = BeautifulSoup(r.text,<span class="string">'lxml'</span>)</div><div class="line">    link = soup.find_all(<span class="string">'h2'</span>)  <span class="comment"># bs4 找 h2 tag</span></div><div class="line">    dl = []</div><div class="line">    title = []</div><div class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> link:</div><div class="line">        title.append(x.contents[<span class="number">0</span>][<span class="string">'title'</span>][<span class="number">13</span>:]) <span class="comment"># h2 tag 下还有其他tag读取内容</span></div><div class="line">        dl.append(x.contents[<span class="number">0</span>][<span class="string">'href'</span>])</div><div class="line">    comic = dict(zip(dl,title))</div><div class="line">    <span class="keyword">return</span>(comic)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getPageNumber</span><span class="params">(page_url)</span>:</span>        <span class="comment">#通过下载地址去的一共多少页面</span></div><div class="line">    allPage = []</div><div class="line">    p = requests.get(page_url)</div><div class="line">    pagesoup = BeautifulSoup(p.text,<span class="string">'lxml'</span>)</div><div class="line">    page = pagesoup.find(attrs=&#123;<span class="string">'class'</span>:<span class="string">'wp-pagenavi'</span>&#125;) <span class="comment"># 直接透过attrs找需要内容</span></div><div class="line">    number_of_page = int(page.contents[<span class="number">0</span>].contents[<span class="number">-3</span>].string)</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(number_of_page):</div><div class="line">        allPage.append(page_url+<span class="string">'/'</span>+str(i+<span class="number">1</span>))</div><div class="line">    <span class="keyword">return</span> allPage</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getImglink</span><span class="params">(page)</span>:</span>       <span class="comment"># 去的图片直链</span></div><div class="line">    imgdr = []</div><div class="line">    p = requests.get(page)</div><div class="line">    imgsoup = BeautifulSoup(p.text,<span class="string">'lxml'</span>)</div><div class="line">    imglink = imgsoup.findAll(<span class="string">'img'</span>)    <span class="comment"># 找html中所有图片</span></div><div class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> imglink:</div><div class="line">        <span class="keyword">if</span> <span class="string">'alt'</span> <span class="keyword">in</span> y.attrs:        <span class="comment"># 剔除没有编号的图片</span></div><div class="line">            imgdr.append(y[<span class="string">'src'</span>])</div><div class="line">    <span class="keyword">return</span>  imgdr</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">downloadComic</span><span class="params">(comic_link)</span>:</span>      <span class="comment"># 下载图片</span></div><div class="line">    imglist = []</div><div class="line">    comic_page = getPageNumber(comic_link)</div><div class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> comic_page:</div><div class="line">        tmp = getImglink(x)</div><div class="line">        <span class="keyword">for</span> y <span class="keyword">in</span> tmp:</div><div class="line">            imglist.append(y)</div><div class="line">    <span class="keyword">for</span> z <span class="keyword">in</span> range(len(imglist)):      <span class="comment"># 用range是因为要重命名图片为后面打包做准备</span></div><div class="line">        img = requests.get(imglist[z<span class="number">-1</span>])</div><div class="line">        <span class="keyword">with</span> open(str(z)+<span class="string">'.jpg'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f: <span class="comment"># 图片wb模式写入 binary</span></div><div class="line">            f.write(img.content)</div><div class="line">    os.chdir(<span class="string">'..'</span>)</div><div class="line"></div><div class="line">url = <span class="string">'http://www.177pic.info/html/category/tt'</span></div><div class="line">total_page = <span class="number">125</span></div><div class="line">url_list = []                                       <span class="comment"># 一共125页</span></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(total_page):</div><div class="line">    url_list.append(url+<span class="string">'/page/'</span>+str(i+<span class="number">1</span>))</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">(url)</span>:</span> <span class="comment"># main模块</span></div><div class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> url:</div><div class="line">        comic = getSource(y)</div><div class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> comic:</div><div class="line">            os.mkdir(comic[x])</div><div class="line">            os.chdir(comic[x])  <span class="comment"># 建立漫画文件夹，利用mapping完成</span></div><div class="line">            downloadComic(x)</div><div class="line">            command = <span class="string">'rar a -r -s -m5 -df \''</span>+comic[x]+<span class="string">'.cbr\' \''</span>+comic[x]+<span class="string">'\''</span> <span class="comment"># 打包指令，直接打包成cbr</span></div><div class="line">            os.system(command)  <span class="comment"># 系统执行</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    main(url_list)</div></pre></td></tr></table></figure>
+<p>附上github链接</p>
+<p><a href="https://github.com/wudaown/177DL" target="_blank" rel="external">177DL</a></p>
+<blockquote>
+<p>目前大概跑了4个小时，已经下载11GB左右，还是很快的。</p>
+<p>加入多线程的话会更快的</p>
+</blockquote>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://www.wdblog.xyz/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/" data-id="cirgi3eb2000kvxonb31dzq5a" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://www.wdblog.xyz/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://www.wdblog.xyz/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/">Comentarios</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2015/08/09/2015-08-09-iPod-Classic/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más nuevo</strong>
+            <div class="article-nav-title">
+                
+                    iPod Classic 复活记
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2015/08/01/2015-08-01--Preview-vim-binding/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más viejo</strong>
+            <div class="article-nav-title">Preview vim binding</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Recientes</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/08/04/server-back/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/08/04/server-back/" class="title">Server 2008 R2文件备份杂记</a></p>
+                            <p class="item-date"><time datetime="2016-08-04T13:35:29.000Z" itemprop="datePublished">2016-08-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/09/2015-08-09-road-bike-defy5/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/09/2015-08-09-road-bike-defy5/" class="title">入手第一辆公路车 Giant Defy 5 2016</a></p>
+                            <p class="item-date"><time datetime="2015-08-09T05:32:55.000Z" itemprop="datePublished">2015-08-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/09/2015-08-09-iPod-Classic/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/09/2015-08-09-iPod-Classic/" class="title">iPod Classic 复活记</a></p>
+                            <p class="item-date"><time datetime="2015-08-09T05:22:31.000Z" itemprop="datePublished">2015-08-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/" class="title">Beautifulsoup &amp; requests 简单应用</a></p>
+                            <p class="item-date"><time datetime="2015-08-06T15:57:30.000Z" itemprop="datePublished">2015-08-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/01/2015-08-01--Preview-vim-binding/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/01/2015-08-01--Preview-vim-binding/" class="title">Preview vim binding</a></p>
+                            <p class="item-date"><time datetime="2015-08-01T05:42:30.000Z" itemprop="datePublished">2015-08-01</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Archivos</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Etiquetas</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/amd/">amd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/efi/">efi</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medic/">medic</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/">nas</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/urllib/">urllib</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vm/">vm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zip/">zip</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/医院/">医院</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/救护/">救护</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/显卡/">显卡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Nube de etiquetas</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/amd/" style="font-size: 10px;">amd</a> <a href="/tags/efi/" style="font-size: 10px;">efi</a> <a href="/tags/mac/" style="font-size: 20px;">mac</a> <a href="/tags/medic/" style="font-size: 10px;">medic</a> <a href="/tags/nas/" style="font-size: 10px;">nas</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/urllib/" style="font-size: 10px;">urllib</a> <a href="/tags/vm/" style="font-size: 10px;">vm</a> <a href="/tags/windows/" style="font-size: 15px;">windows</a> <a href="/tags/zip/" style="font-size: 10px;">zip</a> <a href="/tags/医院/" style="font-size: 10px;">医院</a> <a href="/tags/救护/" style="font-size: 10px;">救护</a> <a href="/tags/显卡/" style="font-size: 10px;">显卡</a> <a href="/tags/服务器/" style="font-size: 15px;">服务器</a> <a href="/tags/爬虫/" style="font-size: 15px;">爬虫</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">Links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 wudaown<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://www.wdblog.xyz/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/';
+        
+        this.page.identifier = '2015-08-06-Beautifulsoup-requests-简单应用';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'wudaown' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

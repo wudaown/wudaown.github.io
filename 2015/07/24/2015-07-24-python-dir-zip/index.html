@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Python 批量移动文件夹 &amp; 批量打包文件 | WDBLOG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="故事是这样的，有一大批漫画，总之很多很多。因为下载的时候文件夹很混乱，都是某文件夹内才是正确的命名。于是呢，就要进去几层文件夹然后在移动出去，手动的话太慢了，于是想了想打开bpython，开始操作。
+1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 批量移动文件夹 & 批量打包文件">
+<meta property="og:url" content="http://www.wdblog.xyz/2015/07/24/2015-07-24-python-dir-zip/index.html">
+<meta property="og:site_name" content="WDBLOG">
+<meta property="og:description" content="故事是这样的，有一大批漫画，总之很多很多。因为下载的时候文件夹很混乱，都是某文件夹内才是正确的命名。于是呢，就要进去几层文件夹然后在移动出去，手动的话太慢了，于是想了想打开bpython，开始操作。
+1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545">
+<meta property="og:updated_time" content="2016-08-04T15:27:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python 批量移动文件夹 & 批量打包文件">
+<meta name="twitter:description" content="故事是这样的，有一大批漫画，总之很多很多。因为下载的时候文件夹很混乱，都是某文件夹内才是正确的命名。于是呢，就要进去几层文件夹然后在移动出去，手动的话太慢了，于是想了想打开bpython，开始操作。
+1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545">
+    
+
+    
+        <link rel="alternate" href="/" title="WDBLOG" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">WDBLOG</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://i.imgur.com/fMwQDsN.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Entradas',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://i.imgur.com/fMwQDsN.jpg" />
+            <h2 id="name">wudaown</h2>
+            <h3 id="title">以在家上班为目标</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Singapore</span>
+            <a id="follow" target="_blank" href="https://github.com/wudaown/">SEGUIR</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                14
+                <span>Entradas</span>
+            </div>
+            <div class="article-info-block">
+                16
+                <span>Etiquetas</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/wudaown" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-2015-07-24-python-dir-zip" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Python 批量移动文件夹 &amp; 批量打包文件
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2015/07/24/2015-07-24-python-dir-zip/">
+            <time datetime="2015-07-24T11:26:02.000Z" itemprop="datePublished">2015-07-24</time>
+        </a>
+    </div>
+
+
+                        
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/mac/">mac</a>, <a class="tag-link" href="/tags/python/">python</a>, <a class="tag-link" href="/tags/shell/">shell</a>, <a class="tag-link" href="/tags/zip/">zip</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>故事是这样的，有一大批漫画，总之很多很多。因为下载的时候文件夹很混乱，都是某文件夹内才是正确的命名。于是呢，就要进去几层文件夹然后在移动出去，手动的话太慢了，于是想了想打开bpython，开始操作。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> shutil</div><div class="line">all = os.popen(<span class="string">'ls'</span>).readlines()</div><div class="line"></div><div class="line">command = []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> all:</div><div class="line">	command.append(<span class="string">'file \''</span>+i[:<span class="number">-1</span>]+<span class="string">'\''</span>)</div><div class="line"></div><div class="line">result = []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> command:</div><div class="line">	result.append(os.popen(i).readline())</div><div class="line">	</div><div class="line">filter_one = []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> result:</div><div class="line">	<span class="keyword">if</span> <span class="string">'dir'</span> <span class="keyword">in</span> i:</div><div class="line">		filter_one.append(i)</div><div class="line">		</div><div class="line"><span class="comment">#filter_two = []</span></div><div class="line"><span class="comment">#for i in filter_one:</span></div><div class="line"><span class="comment">#	if i[0].isnumeric() == True:</span></div><div class="line"><span class="comment">#		filter_two.append(i)</span></div><div class="line"></div><div class="line">directory = []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> filter_one:</div><div class="line">	directory.append(i.split(<span class="string">':'</span>)[<span class="number">0</span>])</div><div class="line"></div><div class="line"><span class="keyword">del</span> all</div><div class="line"><span class="keyword">del</span> command</div><div class="line"><span class="keyword">del</span> result</div><div class="line"><span class="keyword">del</span> filter_one</div><div class="line"><span class="comment">#del filter_two</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> directory:</div><div class="line">	os.chdir(<span class="string">'/Volumes/SHARED/漫画/'</span>+i)</div><div class="line">	<span class="keyword">if</span> (<span class="string">'jpg'</span> <span class="keyword">in</span> os.popen(<span class="string">'ls'</span>).readline()) == <span class="keyword">True</span>:</div><div class="line">		<span class="keyword">pass</span></div><div class="line">	<span class="keyword">else</span>:</div><div class="line">	<span class="keyword">while</span> (<span class="string">'jpg'</span> <span class="keyword">in</span> os.popen(<span class="string">'ls'</span>).readline()) == <span class="keyword">False</span>:</div><div class="line">		os.chdir(os.popen(<span class="string">'ls'</span>).readline()[:<span class="number">-1</span>])</div><div class="line">		os.chdir(<span class="string">'..'</span>)</div><div class="line">		shutil.move(os.popen(<span class="string">'ls'</span>).readline()[:<span class="number">-1</span>],<span class="string">'/Volumes/SHARED/漫画'</span>)</div><div class="line">		shutil.rmtree(<span class="string">'/Volumes/SHARED/漫画'</span>+i)</div><div class="line">		chdir(<span class="string">'/Volumes/SHARED/漫画'</span>)</div><div class="line">		<span class="keyword">break</span></div><div class="line">	<span class="comment">#else:</span></div><div class="line">	<span class="comment">#	os.chdir(os.popen('ls').readline()[:-1])</span></div><div class="line">	<span class="comment">#	if 'jpg' in os.popen('ls').readline() == False:</span></div><div class="line">	<span class="comment">#		os.chdir(os.popen('ls').readline()[:-1])</span></div><div class="line">	<span class="comment">#		if 'jpg' in os.popen('ls').readline() == False:</span></div><div class="line">	<span class="comment">#			os.chdir(os.popen('ls').readline()[:-1])</span></div><div class="line">	<span class="comment">#			if 'jpg' in os.popen('ls').readline() == False:</span></div><div class="line">	<span class="comment">#				os.chdir(os.popen('ls').readline()[:-1])</span></div><div class="line">	<span class="comment">#			else:</span></div><div class="line">	<span class="comment">#				os.chdir('..')</span></div><div class="line">	<span class="comment">#				shutil.move(os.popen('ls').readline()[:-1],'/Volumes/SHARED/漫画')</span></div><div class="line">	<span class="comment">#		else:</span></div><div class="line">	<span class="comment">#				os.chdir('..')</span></div><div class="line">	<span class="comment">#				shutil.move(os.popen('ls').readline()[:-1],'/Volumes/SHARED/漫画')</span></div><div class="line">	<span class="comment">#	else:</span></div><div class="line">	<span class="comment">#		os.chdir('..')</span></div><div class="line">	<span class="comment">#		shutil.move(os.popen('ls').readline()[:-1],'/Volumes/SHARED/漫画')</span></div></pre></td></tr></table></figure>
+<p>通过上面的脚本，基本上文件夹是处理好了，下一步自然就是打包成zip然后用漫画阅读器打开咯~~</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line">all = os.popen(<span class="string">'ls'</span>).readlines()</div><div class="line">directory = []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> all:</div><div class="line">	directory.append(i[:<span class="number">-1</span>])</div><div class="line"></div><div class="line"><span class="keyword">del</span> all</div><div class="line"></div><div class="line">command = []</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> directory:</div><div class="line">	command.append(<span class="string">'zip -r -m \''</span>+i+<span class="string">'.zip\''</span>+<span class="string">' \''</span>+i+<span class="string">'\''</span>)</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> command:</div><div class="line">	os.system(i)</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">zip -r -m filename.zip filename</div><div class="line"><span class="comment"># -r 是 recursive 把文件夹下的所有东西都打包</span></div><div class="line"><span class="comment"># -m 是打包完之后删除原文件</span></div></pre></td></tr></table></figure>
+<hr>
+<p>要搬家了，最近周末都在整理东西，已经丢掉很多很多包装盒了。</p>
+<p>下一步是把一些坏掉的设备修好，ipod啦</p>
+<p>一个rj11接口的黑轴键盘改成GH60</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://www.wdblog.xyz/2015/07/24/2015-07-24-python-dir-zip/" data-id="cirgi3eae0009vxonxf12mqc9" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://www.wdblog.xyz/2015/07/24/2015-07-24-python-dir-zip/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://www.wdblog.xyz/2015/07/24/2015-07-24-python-dir-zip/">Comentarios</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2015/07/31/2015-07-31-gmvault-backup-gmail/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más nuevo</strong>
+            <div class="article-nav-title">
+                
+                    gmavult 备份 &amp; 还原 Gmail
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2015/07/17/2015-07-17-08r2vm/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más viejo</strong>
+            <div class="article-nav-title">Windows 08 R2 Virtualbox 64位系统</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Recientes</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/08/04/server-back/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/08/04/server-back/" class="title">Server 2008 R2文件备份杂记</a></p>
+                            <p class="item-date"><time datetime="2016-08-04T13:35:29.000Z" itemprop="datePublished">2016-08-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/09/2015-08-09-road-bike-defy5/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/09/2015-08-09-road-bike-defy5/" class="title">入手第一辆公路车 Giant Defy 5 2016</a></p>
+                            <p class="item-date"><time datetime="2015-08-09T05:32:55.000Z" itemprop="datePublished">2015-08-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/09/2015-08-09-iPod-Classic/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/09/2015-08-09-iPod-Classic/" class="title">iPod Classic 复活记</a></p>
+                            <p class="item-date"><time datetime="2015-08-09T05:22:31.000Z" itemprop="datePublished">2015-08-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/" class="title">Beautifulsoup &amp; requests 简单应用</a></p>
+                            <p class="item-date"><time datetime="2015-08-06T15:57:30.000Z" itemprop="datePublished">2015-08-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/01/2015-08-01--Preview-vim-binding/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/01/2015-08-01--Preview-vim-binding/" class="title">Preview vim binding</a></p>
+                            <p class="item-date"><time datetime="2015-08-01T05:42:30.000Z" itemprop="datePublished">2015-08-01</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Archivos</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Etiquetas</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/amd/">amd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/efi/">efi</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medic/">medic</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/">nas</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/urllib/">urllib</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vm/">vm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zip/">zip</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/医院/">医院</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/救护/">救护</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/显卡/">显卡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Nube de etiquetas</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/amd/" style="font-size: 10px;">amd</a> <a href="/tags/efi/" style="font-size: 10px;">efi</a> <a href="/tags/mac/" style="font-size: 20px;">mac</a> <a href="/tags/medic/" style="font-size: 10px;">medic</a> <a href="/tags/nas/" style="font-size: 10px;">nas</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/urllib/" style="font-size: 10px;">urllib</a> <a href="/tags/vm/" style="font-size: 10px;">vm</a> <a href="/tags/windows/" style="font-size: 15px;">windows</a> <a href="/tags/zip/" style="font-size: 10px;">zip</a> <a href="/tags/医院/" style="font-size: 10px;">医院</a> <a href="/tags/救护/" style="font-size: 10px;">救护</a> <a href="/tags/显卡/" style="font-size: 10px;">显卡</a> <a href="/tags/服务器/" style="font-size: 15px;">服务器</a> <a href="/tags/爬虫/" style="font-size: 15px;">爬虫</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">Links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 wudaown<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://www.wdblog.xyz/2015/07/24/2015-07-24-python-dir-zip/';
+        
+        this.page.identifier = '2015-07-24-python-dir-zip';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'wudaown' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

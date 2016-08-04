@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>gmavult 备份 &amp; 还原 Gmail | WDBLOG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="故事故事是这样的，邮箱里有很多很多很古老的短信，通话记录和以前学校的一些项目邮件。
+留着也没有什么用处了，删除了又可惜如果那天需要呢。
+于是就像全部备份到本地算了。
+寻找下一步就是想办法备份啦，第一个想到的就是用brew搜索一下啦
+1brew search gmail
+12gmail-backupCaskroom/cask/gmail-notifier  Caskroom/cask/gmail-n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gmavult 备份 & 还原 Gmail">
+<meta property="og:url" content="http://www.wdblog.xyz/2015/07/31/2015-07-31-gmvault-backup-gmail/index.html">
+<meta property="og:site_name" content="WDBLOG">
+<meta property="og:description" content="故事故事是这样的，邮箱里有很多很多很古老的短信，通话记录和以前学校的一些项目邮件。
+留着也没有什么用处了，删除了又可惜如果那天需要呢。
+于是就像全部备份到本地算了。
+寻找下一步就是想办法备份啦，第一个想到的就是用brew搜索一下啦
+1brew search gmail
+12gmail-backupCaskroom/cask/gmail-notifier  Caskroom/cask/gmail-n">
+<meta property="og:updated_time" content="2016-08-04T15:26:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gmavult 备份 & 还原 Gmail">
+<meta name="twitter:description" content="故事故事是这样的，邮箱里有很多很多很古老的短信，通话记录和以前学校的一些项目邮件。
+留着也没有什么用处了，删除了又可惜如果那天需要呢。
+于是就像全部备份到本地算了。
+寻找下一步就是想办法备份啦，第一个想到的就是用brew搜索一下啦
+1brew search gmail
+12gmail-backupCaskroom/cask/gmail-notifier  Caskroom/cask/gmail-n">
+    
+
+    
+        <link rel="alternate" href="/" title="WDBLOG" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">WDBLOG</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://i.imgur.com/fMwQDsN.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Entradas',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://i.imgur.com/fMwQDsN.jpg" />
+            <h2 id="name">wudaown</h2>
+            <h3 id="title">以在家上班为目标</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Singapore</span>
+            <a id="follow" target="_blank" href="https://github.com/wudaown/">SEGUIR</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                14
+                <span>Entradas</span>
+            </div>
+            <div class="article-info-block">
+                16
+                <span>Etiquetas</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/wudaown" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-2015-07-31-gmvault-backup-gmail" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            gmavult 备份 &amp; 还原 Gmail
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2015/07/31/2015-07-31-gmvault-backup-gmail/">
+            <time datetime="2015-07-31T14:22:03.000Z" itemprop="datePublished">2015-07-31</time>
+        </a>
+    </div>
+
+
+                        
+                        
+                    </div>
+                
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h3 id="故事"><a href="#故事" class="headerlink" title="故事"></a>故事</h3><p>故事是这样的，邮箱里有很多很多很古老的短信，通话记录和以前学校的一些项目邮件。</p>
+<p>留着也没有什么用处了，删除了又可惜如果那天需要呢。</p>
+<p>于是就像全部备份到本地算了。</p>
+<h3 id="寻找"><a href="#寻找" class="headerlink" title="寻找"></a>寻找</h3><p>下一步就是想办法备份啦，第一个想到的就是用brew搜索一下啦</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew search gmail</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">gmail-backup</div><div class="line">Caskroom/cask/gmail-notifier  Caskroom/cask/gmail-notifr</div></pre></td></tr></table></figure>
+<p>返回了三个结果</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install gmail-backup</div></pre></td></tr></table></figure>
+<p>中间省去一万字，应该是一个过期的项目了，不能用。</p>
+<p>在省去一万字，找到了<a href="http://gmvault.org/" target="_blank" rel="external">gmvault</a></p>
+<p>brew里面已经收录了 ，那接下来就简单了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install gmvault</div></pre></td></tr></table></figure>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>这里就简单指出几个我使用的，具体可以查询<a href="http://gmvault.org/in_depth.html#indepth" target="_blank" rel="external">gmvault documentation</a></p>
+<p>首先是完整的备份。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gmvault sync username@gmail.com</div></pre></td></tr></table></figure>
+<p>然后是指定标签备份，这个更有用处。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gmvault sync --type custom --gmail-req <span class="string">'in:tags'</span> <span class="string">'username@gmail.com'</span> -c no</div></pre></td></tr></table></figure>
+<p>‘in:tags’ 中的tags就是标签，默认会备份在$HOME/gmvault-db目录下</p>
+<p>接下来说一下转换成mbox文件吧</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gmvault <span class="built_in">export</span> ~/mbox-dir</div></pre></td></tr></table></figure>
+<p>这样就可以把备份下来的右键转换成mbox文件保存了，不然的话邮件默认是eml文件形式的，我就不说第一次备份下来硬盘多了N多文件的事情了。</p>
+<p>转换完，突然想到mbox格式打开查询太不方便了，于是呢，就想到把刚才备份的右键全部保存到另外一个gmail里去算了，方便查询。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gmvault restore <span class="_">-d</span> ~/gmvault-db username_backup@gmail.com</div></pre></td></tr></table></figure>
+<p>这样就把整个数据库全部上传啦！当然只想上传某lable也是做得到的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gmvault restore --lable <span class="string">'label'</span> <span class="_">-d</span> ~/gmvault-db username_backup@gmail.com</div></pre></td></tr></table></figure>
+<p>是不是简单又方便呢！</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://www.wdblog.xyz/2015/07/31/2015-07-31-gmvault-backup-gmail/" data-id="cirgi3eaw000hvxonviv7oc29" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://www.wdblog.xyz/2015/07/31/2015-07-31-gmvault-backup-gmail/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://www.wdblog.xyz/2015/07/31/2015-07-31-gmvault-backup-gmail/">Comentarios</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2015/07/31/2015-07-31-mac-chsdir/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más nuevo</strong>
+            <div class="article-nav-title">
+                
+                    Mac安装chsdir 中文路径补全
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2015/07/24/2015-07-24-python-dir-zip/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más viejo</strong>
+            <div class="article-nav-title">Python 批量移动文件夹 &amp; 批量打包文件</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Recientes</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/08/04/server-back/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/08/04/server-back/" class="title">Server 2008 R2文件备份杂记</a></p>
+                            <p class="item-date"><time datetime="2016-08-04T13:35:29.000Z" itemprop="datePublished">2016-08-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/09/2015-08-09-road-bike-defy5/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/09/2015-08-09-road-bike-defy5/" class="title">入手第一辆公路车 Giant Defy 5 2016</a></p>
+                            <p class="item-date"><time datetime="2015-08-09T05:32:55.000Z" itemprop="datePublished">2015-08-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/09/2015-08-09-iPod-Classic/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/09/2015-08-09-iPod-Classic/" class="title">iPod Classic 复活记</a></p>
+                            <p class="item-date"><time datetime="2015-08-09T05:22:31.000Z" itemprop="datePublished">2015-08-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/" class="title">Beautifulsoup &amp; requests 简单应用</a></p>
+                            <p class="item-date"><time datetime="2015-08-06T15:57:30.000Z" itemprop="datePublished">2015-08-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/01/2015-08-01--Preview-vim-binding/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/01/2015-08-01--Preview-vim-binding/" class="title">Preview vim binding</a></p>
+                            <p class="item-date"><time datetime="2015-08-01T05:42:30.000Z" itemprop="datePublished">2015-08-01</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Archivos</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Etiquetas</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/amd/">amd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/efi/">efi</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medic/">medic</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/">nas</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/urllib/">urllib</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vm/">vm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zip/">zip</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/医院/">医院</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/救护/">救护</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/显卡/">显卡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Nube de etiquetas</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/amd/" style="font-size: 10px;">amd</a> <a href="/tags/efi/" style="font-size: 10px;">efi</a> <a href="/tags/mac/" style="font-size: 20px;">mac</a> <a href="/tags/medic/" style="font-size: 10px;">medic</a> <a href="/tags/nas/" style="font-size: 10px;">nas</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/urllib/" style="font-size: 10px;">urllib</a> <a href="/tags/vm/" style="font-size: 10px;">vm</a> <a href="/tags/windows/" style="font-size: 15px;">windows</a> <a href="/tags/zip/" style="font-size: 10px;">zip</a> <a href="/tags/医院/" style="font-size: 10px;">医院</a> <a href="/tags/救护/" style="font-size: 10px;">救护</a> <a href="/tags/显卡/" style="font-size: 10px;">显卡</a> <a href="/tags/服务器/" style="font-size: 15px;">服务器</a> <a href="/tags/爬虫/" style="font-size: 15px;">爬虫</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">Links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 wudaown<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://www.wdblog.xyz/2015/07/31/2015-07-31-gmvault-backup-gmail/';
+        
+        this.page.identifier = '2015-07-31-gmvault-backup-gmail';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'wudaown' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

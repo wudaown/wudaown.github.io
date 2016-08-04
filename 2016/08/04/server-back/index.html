@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Server 2008 R2文件备份杂记 | WDBLOG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Server 2008 R2文件备份杂记前言两周前公司某员工收到一封伪装成Fedex的邮件，里面包含nemucod病毒的JS代码。因为所有文件都是储存在服务器上面的，直接导致了改员工账户所有可写文件被加密。此处省略一万字，总之文件是恢复过来了。上面也发话了，只好把准备年底在做的备份提前了。
+思路因为公司所有文件都是在服务器上面的，所有备份量会比较大。并且之前也用过群辉的NAS，这次也就直接考虑入手">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Server 2008 R2文件备份杂记">
+<meta property="og:url" content="http://www.wdblog.xyz/2016/08/04/server-back/index.html">
+<meta property="og:site_name" content="WDBLOG">
+<meta property="og:description" content="Server 2008 R2文件备份杂记前言两周前公司某员工收到一封伪装成Fedex的邮件，里面包含nemucod病毒的JS代码。因为所有文件都是储存在服务器上面的，直接导致了改员工账户所有可写文件被加密。此处省略一万字，总之文件是恢复过来了。上面也发话了，只好把准备年底在做的备份提前了。
+思路因为公司所有文件都是在服务器上面的，所有备份量会比较大。并且之前也用过群辉的NAS，这次也就直接考虑入手">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/72f96cbajw1f6i2eg3xe7j21h40z1ahh.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/72f96cbajw1f6i2gxrx7dj21h40z1ahc.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/72f96cbajw1f6i2w238eoj215y0os45z.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/72f96cbajw1f6i2x4wljtj20al09kq3u.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/72f96cbajw1f6i3j0or29j20yb09r3zm.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/72f96cbajw1f6i3lb72h3j21as0rygqg.jpg">
+<meta property="og:updated_time" content="2016-08-04T15:25:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Server 2008 R2文件备份杂记">
+<meta name="twitter:description" content="Server 2008 R2文件备份杂记前言两周前公司某员工收到一封伪装成Fedex的邮件，里面包含nemucod病毒的JS代码。因为所有文件都是储存在服务器上面的，直接导致了改员工账户所有可写文件被加密。此处省略一万字，总之文件是恢复过来了。上面也发话了，只好把准备年底在做的备份提前了。
+思路因为公司所有文件都是在服务器上面的，所有备份量会比较大。并且之前也用过群辉的NAS，这次也就直接考虑入手">
+<meta name="twitter:image" content="http://ww4.sinaimg.cn/large/72f96cbajw1f6i2eg3xe7j21h40z1ahh.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="WDBLOG" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">WDBLOG</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://i.imgur.com/fMwQDsN.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Entradas',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://i.imgur.com/fMwQDsN.jpg" />
+            <h2 id="name">wudaown</h2>
+            <h3 id="title">以在家上班为目标</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Singapore</span>
+            <a id="follow" target="_blank" href="https://github.com/wudaown/">SEGUIR</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                14
+                <span>Entradas</span>
+            </div>
+            <div class="article-info-block">
+                16
+                <span>Etiquetas</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/wudaown" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-server-back" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Server 2008 R2文件备份杂记
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/08/04/server-back/">
+            <time datetime="2016-08-04T13:35:29.000Z" itemprop="datePublished">2016-08-04</time>
+        </a>
+    </div>
+
+
+                        
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/nas/">nas</a>, <a class="tag-link" href="/tags/服务器/">服务器</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="Server-2008-R2文件备份杂记"><a href="#Server-2008-R2文件备份杂记" class="headerlink" title="Server 2008 R2文件备份杂记"></a>Server 2008 R2文件备份杂记</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>两周前公司某员工收到一封伪装成Fedex的邮件，里面包含<a href="http://www.enigmasoftware.com/nemucodransomware-removal/" target="_blank" rel="external">nemucod</a>病毒的JS代码。因为所有文件都是储存在服务器上面的，直接导致了改员工账户所有可写文件被加密。此处省略一万字，总之文件是恢复过来了。上面也发话了，只好把准备年底在做的备份提前了。</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>因为公司所有文件都是在服务器上面的，所有备份量会比较大。并且之前也用过群辉的NAS，这次也就直接考虑入手群辉的NAS了。经过一番调查，DSM6.0支持经过btfs加持的Snapshot Replication和<a href="https://www.synology.com/zh-cn/dsm/6.0/data_backup" target="_blank" rel="external">Hyper Backup</a>。</p>
+<p>两种方案都很好，深入阅读之后发现两种技术都是建立在对硬盘的区块进行还原的，也就是说并不适用于服务器上面的文件系统。不过我觉得问题不大，明年改其他电脑的时候顺便把资料移动到群辉上面再用上述方案吧。现在的话先用Windows Server Backup问题不大，把备份放在NAS上面就可以了。事实证明调查的不够彻底，被微软坑了，下面会详细说明。</p>
+<p>在看介绍的时候顺便留意到了Snapshot Replication可以和Windows系统中的<code>以前的版本</code>结合。不是很清楚是什么原理，不过我记下来了，就顺便再服务器上面把卷影副本打开了。</p>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ol>
+<li><p>DS916+</p>
+</li>
+<li><p>文件服务器</p>
+</li>
+<li><p>网络设备</p>
+<p>其实就是买了一台DS916+和两块4TB的西数红盘，稳定性第一嘛。</p>
+</li>
+</ol>
+<h2 id="实施"><a href="#实施" class="headerlink" title="实施"></a>实施</h2><p>我并不在公司，让公司的人帮我装上硬盘，把NAS接入到交换机就可以了。第一个问题，根据官方的手册 <a href="http://find.synology.com/" target="_blank" rel="external">http://find.synology.com/</a> 并找不到NAS。只好下载了群辉的Setup Assistant，发现了NAS的IP地址是169.254.x.x。瞬间就明白了，内网有线网络我并没有DHCP服务器，所有台式电脑都是静态IP的，到路由器把DHCP打开立马分配到了IP。登陆到NAS只好第一件事情就是分配静态IP。</p>
+<p><img src="http://ww4.sinaimg.cn/large/72f96cbajw1f6i2eg3xe7j21h40z1ahh.jpg" alt=""></p>
+<p>第二件事情就是加入域，都是比较直白的内容了。</p>
+<p><img src="http://ww2.sinaimg.cn/large/72f96cbajw1f6i2gxrx7dj21h40z1ahc.jpg" alt=""></p>
+<p>比较坑的就是Windows Server Backup的计划备份任务不支持在远程位置保存超过一份的备份内容，也就是说每次备份只好之前的备份就会消失。</p>
+<p>我这里已经是生产环境了，就不截图了。但是我坚持要每天保存一份的话应该怎么办呢。Google了好久都没有找到答案，只有一些人提议每次都做一份完整备份就可以保存多个不同时期的备份了，这样太浪费空间了。</p>
+<p>刚好看到备份出来的文件是一个大包了的VHD文件，让我想到了和不建立一个虚拟硬盘挂载到本机作为备份用硬盘呢。</p>
+<p><code>diskmgmt.msc</code></p>
+<p>打开磁盘管理创建VHD，创建完成后会自动挂载的不用担心，手动初始化。这里强烈推荐创建的时候选择动态扩展，不然会很慢很慢的。</p>
+<p><img src="http://ww4.sinaimg.cn/large/72f96cbajw1f6i2w238eoj215y0os45z.jpg" alt=""></p>
+<p><img src="http://ww3.sinaimg.cn/large/72f96cbajw1f6i2x4wljtj20al09kq3u.jpg" alt=""></p>
+<p>图中<code>BACKUP DISK</code>就是我的备份虚拟硬盘啦，实际使用下来并没有什么问题除了性能会有所下降之外。</p>
+<p>关于卷影副本，我的理解就是Mac的TM嘛。不知道为什么我某个分区默认有一个VSS副本了，要换位置的时候还不能删除旧的。</p>
+<p><code>vssadmin delete shadowstorage /for=G: /on=G:</code> 也是失败的，Google了一圈之后发现可以尝试一下<code>disk shadow</code> </p>
+<p><code>diskshadow</code></p>
+<p><code>list shadows all</code> 这一段的输出我没看明白</p>
+<p><code>delete shadows oldest G:</code></p>
+<p>这样就正常了，在员工的计算机上面也可以恢复了。</p>
+<p>当我以为一切都结束继续检查日志的时候，看到这样一条日志。</p>
+<p><img src="http://ww3.sinaimg.cn/large/72f96cbajw1f6i3j0or29j20yb09r3zm.jpg" alt=""></p>
+<p>好吧，VSS服务默认是手动开启的。系统经过一段时间会自动关闭服务，这个不是打问题，改成手动的就可以了。</p>
+<p>最终效果是这样的。</p>
+<p><img src="http://ww2.sinaimg.cn/large/72f96cbajw1f6i3lb72h3j21as0rygqg.jpg" alt=""></p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>其实对于虚拟硬盘并且在备份的时候选择VSS完整备份我并不是很放心，先观察几天有可能会改成VSS副本备份。</p>
+<p>文件量相差的还是很大的。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.techotopia.com/index.php/Configuring_Volume_Shadow_Copy_on_Windows_Server_2008" target="_blank" rel="external">Configuring Volume Shadow Copy on Windows Server 2008</a></p>
+<p><a href="http://91xueit.blog.51cto.com/400469/1115012" target="_blank" rel="external">卷影副本–给你后悔的机会，文件误删除，误更改，能够找到以前的版本。</a></p>
+<p><a href="http://60.29.30.134:7003/wlfwq/SCOs/ZYKC201306_A04_7_1_2/index.html" target="_blank" rel="external">卷影副本、计划备份与手工备份</a></p>
+<p><a href="http://mrfly.blog.51cto.com/151750/187895/" target="_blank" rel="external">浅谈Hyper-V的几种备份方式(二)—-Windows Server Backup &amp; VSS</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://www.wdblog.xyz/2016/08/04/server-back/" data-id="cirgi3eas000fvxon0kui4m91" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://www.wdblog.xyz/2016/08/04/server-back/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://www.wdblog.xyz/2016/08/04/server-back/">Comentarios</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2015/08/09/2015-08-09-road-bike-defy5/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más viejo</strong>
+            <div class="article-nav-title">入手第一辆公路车 Giant Defy 5 2016</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Recientes</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/08/04/server-back/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/08/04/server-back/" class="title">Server 2008 R2文件备份杂记</a></p>
+                            <p class="item-date"><time datetime="2016-08-04T13:35:29.000Z" itemprop="datePublished">2016-08-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/09/2015-08-09-road-bike-defy5/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/09/2015-08-09-road-bike-defy5/" class="title">入手第一辆公路车 Giant Defy 5 2016</a></p>
+                            <p class="item-date"><time datetime="2015-08-09T05:32:55.000Z" itemprop="datePublished">2015-08-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/09/2015-08-09-iPod-Classic/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/09/2015-08-09-iPod-Classic/" class="title">iPod Classic 复活记</a></p>
+                            <p class="item-date"><time datetime="2015-08-09T05:22:31.000Z" itemprop="datePublished">2015-08-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/06/2015-08-06-Beautifulsoup-requests-简单应用/" class="title">Beautifulsoup &amp; requests 简单应用</a></p>
+                            <p class="item-date"><time datetime="2015-08-06T15:57:30.000Z" itemprop="datePublished">2015-08-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/08/01/2015-08-01--Preview-vim-binding/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2015/08/01/2015-08-01--Preview-vim-binding/" class="title">Preview vim binding</a></p>
+                            <p class="item-date"><time datetime="2015-08-01T05:42:30.000Z" itemprop="datePublished">2015-08-01</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Archivos</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Etiquetas</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/amd/">amd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/efi/">efi</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medic/">medic</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nas/">nas</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/urllib/">urllib</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vm/">vm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zip/">zip</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/医院/">医院</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/救护/">救护</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/显卡/">显卡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Nube de etiquetas</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/amd/" style="font-size: 10px;">amd</a> <a href="/tags/efi/" style="font-size: 10px;">efi</a> <a href="/tags/mac/" style="font-size: 20px;">mac</a> <a href="/tags/medic/" style="font-size: 10px;">medic</a> <a href="/tags/nas/" style="font-size: 10px;">nas</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/urllib/" style="font-size: 10px;">urllib</a> <a href="/tags/vm/" style="font-size: 10px;">vm</a> <a href="/tags/windows/" style="font-size: 15px;">windows</a> <a href="/tags/zip/" style="font-size: 10px;">zip</a> <a href="/tags/医院/" style="font-size: 10px;">医院</a> <a href="/tags/救护/" style="font-size: 10px;">救护</a> <a href="/tags/显卡/" style="font-size: 10px;">显卡</a> <a href="/tags/服务器/" style="font-size: 15px;">服务器</a> <a href="/tags/爬虫/" style="font-size: 15px;">爬虫</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">Links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 wudaown<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://www.wdblog.xyz/2016/08/04/server-back/';
+        
+        this.page.identifier = 'server-back';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'wudaown' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
