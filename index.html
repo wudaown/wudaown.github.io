@@ -332,24 +332,18 @@
 
       
         
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>服务器做好之后就一直能看到NetBt错误一直提示下面的错误信息。</p>
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>服务器做好之后就一直能看到NetBt错误一直提示下面的错误信息。</p>
 <blockquote>
 <p>在 TCP 网络上检测出有重复名称，发送消息的计算机的 IP 地址在数据中</p>
 </blockquote>
 <p>一直没有什么影响就无视掉了，今天实在受不了了。</p>
 <h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><p>根据错误提示可以用一下命令才检查。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nbtstat -n</div></pre></td></tr></table></figure>
-<p>&lt;!—more—&gt;</p>
-<p><img src="http://ww3.sinaimg.cn/large/72f96cbajw1f6j8yhla1tj20if0ncwgn.jpg" alt=""></p>
-<p>不是很明白，就看出来多个网卡的IP地址显示出来了。</p>
-<p>到网络设定捣鼓了很久，发现可以有一个NetBIOS的设定，直接禁用掉试试看。</p>
-<p><img src="http://ww4.sinaimg.cn/large/72f96cbajw1f6j90u6cgsj20wh0iwgq4.jpg" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nbtstat n</div></pre></td></tr></table></figure>
-<p><img src="http://ww4.sinaimg.cn/large/72f96cbajw1f6j91hb7nij20ie0nmwgf.jpg" alt=""></p>
-<h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><p>如上图看到的，NetBIOS只剩下我的DNS指向地址了。观察了一段时间之后日志也没有该错误了。算是解决了。</p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/08/05/netbt-err/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
