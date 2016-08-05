@@ -102,7 +102,7 @@
 这次换换口味用beautifulsoup和requests来抓。
 第一件事情当然安装beautifulsoup，安装过程并不顺利，翻了一下官网才知道原来改名了。
 123pip3.4 install">
-<meta property="og:updated_time" content="2016-08-05T07:40:37.000Z">
+<meta property="og:updated_time" content="2016-08-05T09:10:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Beautifulsoup & requests 简单应用">
 <meta name="twitter:description" content="故事这次的故事是这样的，应某友要求要下载某种类型漫画。
@@ -345,6 +345,7 @@
 <p>这样用我毕竟习惯。</p>
 <p>另外为了更好的解析，可以选择安装lxml。</p>
 <p>之前在看某wifi密码查询工具的时候就安装过了，没有安装的安装一下。</p>
+<a id="more"></a>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip3.4 install lxml</div></pre></td></tr></table></figure>
 <p>这里主要记录一下今天用到的几个method</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">soup = bs(r.text,<span class="string">'lxml'</span>)</div><div class="line">link = soup.find_all(<span class="string">'h2'</span>) <span class="comment"># bs4 查找全部h2 tag</span></div><div class="line"></div><div class="line">page = pagesoup.find(attrs=&#123;<span class="string">'class'</span>:<span class="string">'wp-pagenavi'</span>&#125;) <span class="comment"># 查找指定attrs</span></div><div class="line"></div><div class="line">int(page.contents[<span class="number">0</span>].contents[<span class="number">-3</span>].string) <span class="comment"># 某tag里面的children contents输入NavigableString转换int</span></div><div class="line"></div><div class="line">imgsoup.findAll(<span class="string">'img'</span>) <span class="comment"># find_all 另外一个method</span></div></pre></td></tr></table></figure>

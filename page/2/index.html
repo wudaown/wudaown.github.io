@@ -322,22 +322,19 @@
 
       
         
-          
-            <h3 id="故事"><a href="#故事" class="headerlink" title="故事"></a>故事</h3><p>这次的故事是这样开始的，因为马上要换60%的键盘了，那就永远没有都方向键了。</p>
+          <h3 id="故事"><a href="#故事" class="headerlink" title="故事"></a>故事</h3><p>这次的故事是这样开始的，因为马上要换60%的键盘了，那就永远没有都方向键了。</p>
 <p>那用Preview看pdf文件会非常不方便，还非常喜欢hjkl式的移动方式。</p>
 <p>那就开始改。</p>
-<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>清楚神器 <a href="https://pqrs.org/osx/karabiner/xml.html.en" target="_blank" rel="external">karabiner</a></p>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>清楚神器 <a href="https://pqrs.org/osx/karabiner/xml.html.en">karabiner</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew-cask install karabiner</div></pre></td></tr></table></figure>
 <p>安装好神器，在准备一个编辑器。</p>
 <p>我当然还是用vim</p>
 <h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim <span class="variable">$HOME</span>/Library/Application\ Support/Karabiner/private.xml</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</div><div class="line">&lt;root&gt;</div><div class="line">  &lt;appdef&gt;</div><div class="line">    &lt;appname&gt;PREVIEW&lt;/appname&gt;</div><div class="line">    &lt;equal&gt;com.apple.Preview&lt;/equal&gt;</div><div class="line">  &lt;/appdef&gt;</div><div class="line"></div><div class="line">  &lt;item&gt;</div><div class="line">    &lt;name&gt;Vi Navigation in Preview&lt;/name&gt;</div><div class="line">    &lt;identifier&gt;private.preview.vinav&lt;/identifier&gt;</div><div class="line">    &lt;only&gt;PREVIEW&lt;/only&gt;</div><div class="line">    &lt;uielementrole_not&gt;AXTextField, AXTextArea&lt;/uielementrole_not&gt;</div><div class="line">    &lt;modifier_only&gt;</div><div class="line">        ModifierFlag::NONE,</div><div class="line">        ModifierFlag::SHIFT_L | ModifierFlag::NONE,</div><div class="line">        ModifierFlag::SHIFT_R | ModifierFlag::NONE,</div><div class="line">    &lt;/modifier_only&gt;</div><div class="line">    &lt;appendix&gt;Navigate using the HJKL keys&lt;/appendix&gt;</div><div class="line">    &lt;autogen&gt;__KeyToKey__ KeyCode::J, KeyCode::CURSOR_DOWN&lt;/autogen&gt;</div><div class="line">    &lt;autogen&gt;__KeyToKey__ KeyCode::K, KeyCode::CURSOR_UP&lt;/autogen&gt;</div><div class="line">    &lt;autogen&gt;__KeyToKey__ KeyCode::H, KeyCode::CURSOR_LEFT&lt;/autogen&gt;</div><div class="line">    &lt;autogen&gt;__KeyToKey__ KeyCode::L, KeyCode::CURSOR_RIGHT&lt;/autogen&gt;</div><div class="line">  &lt;/item&gt;</div><div class="line"></div><div class="line">  &lt;item&gt;</div><div class="line">    &lt;name&gt;Vi Zoom in Preview&lt;/name&gt;</div><div class="line">    &lt;identifier&gt;private.preview.vizoom&lt;/identifier&gt;</div><div class="line">    &lt;only&gt;PREVIEW&lt;/only&gt;</div><div class="line">    &lt;uielementrole_not&gt;AXTextField, AXTextArea&lt;/uielementrole_not&gt;</div><div class="line">    &lt;modifier_only&gt;</div><div class="line">        ModifierFlag::NONE,</div><div class="line">        ModifierFlag::SHIFT_L | ModifierFlag::NONE,</div><div class="line">        ModifierFlag::SHIFT_R | ModifierFlag::NONE,</div><div class="line">    &lt;/modifier_only&gt;</div><div class="line">    &lt;appendix&gt;Zoom using E/R: out/in&lt;/appendix&gt;</div><div class="line">    &lt;appendix&gt;Zoom to fit: F&lt;/appendix&gt;</div><div class="line">    &lt;appendix&gt;Zoom to 100%: D&lt;/appendix&gt;</div><div class="line">    &lt;autogen&gt;__KeyToKey__ KeyCode::F, KeyCode::KEYPAD_9, VK_COMMAND&lt;/autogen&gt;</div><div class="line">    &lt;autogen&gt;__KeyToKey__ KeyCode::D, KeyCode::KEYPAD_0, VK_COMMAND&lt;/autogen&gt;</div><div class="line">    &lt;autogen&gt;__KeyToKey__ KeyCode::R, KeyCode::KEYPAD_PLUS, VK_COMMAND&lt;/autogen&gt;</div><div class="line">    &lt;autogen&gt;__KeyToKey__ KeyCode::E, KeyCode::KEYPAD_MINUS, VK_COMMAND&lt;/autogen&gt;</div><div class="line">  &lt;/item&gt;</div><div class="line">&lt;/root&gt;</div></pre></td></tr></table></figure>
-<p>把上面的代码加入到private.xml文件中。</p>
-<p> <img src="http://wudaown.github.io/pic/preview_vim/vim.png" alt="vim"></p>
-<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p>当然就是在preview中可以使用hjkl来移动啦~~</p>
-<p>还有ERDF来缩放~~</p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/01/2015-08-01--Preview-vim-binding/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -454,22 +451,17 @@
 
       
         
-          
-            <h3 id="故事"><a href="#故事" class="headerlink" title="故事"></a>故事</h3><p>今天的故事是这样的。</p>
-<p>部分人可能还记得几年前linuxtoy介绍的一块中文补全插件<a href="https://linuxtoy.org/archives/chsdir.html" target="_blank" rel="external">chsdir</a>，可惜的是作者已经很久没有更新了，而且兼容性貌似也有一些问题。</p>
+          <h3 id="故事"><a href="#故事" class="headerlink" title="故事"></a>故事</h3><p>今天的故事是这样的。</p>
+<p>部分人可能还记得几年前linuxtoy介绍的一块中文补全插件<a href="https://linuxtoy.org/archives/chsdir.html">chsdir</a>，可惜的是作者已经很久没有更新了，而且兼容性貌似也有一些问题。</p>
 <p>我在很久以前就修改过，并且让这款插件完全能在mac下使用了。</p>
 <p>今天往Macbook Pro上面装的时候遇到一些问题，还好台式Mac Pro有已经安装好的给我参考。</p>
 <p>下面就介绍过程吧</p>
 <h3 id="依赖关系-Update-2015-08-01"><a href="#依赖关系-Update-2015-08-01" class="headerlink" title="依赖关系 Update 2015-08-01"></a>依赖关系 Update 2015-08-01</h3><p>昨天忘记说了，改插件需要bash-completion支持，zsh的话也有相应的completion组件吧？</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">brew install bash-completion</div><div class="line">brew install bash</div><div class="line">sudo mv /usr/<span class="built_in">local</span>/bin/bash /usr/<span class="built_in">local</span>/bin/bash.bak</div><div class="line">sudo ln <span class="_">-s</span> /usr/<span class="built_in">local</span>/Cellar/bash/version/bash /usr/<span class="built_in">local</span>/bin/bash</div></pre></td></tr></table></figure>
-<p>除了bash-completion之外，也需要安装新的bash，Mac自带的bash和completion不起作用。</p>
-<h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><p>首先先下载，我不知道那年改过那里的文件。</p>
-<p><a href="http://wudaown.github.io/download/chsdir.zip" target="_blank" rel="external">chsdir</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mkdir ~/bin</div><div class="line">unzip chsdir <span class="_">-d</span> ~/bin</div><div class="line"><span class="built_in">echo</span> <span class="string">". <span class="variable">$HOME</span>/bin/chsdir_completion"</span> &gt;&gt; ~/.bash_profile </div><div class="line"><span class="built_in">echo</span> <span class="string">"complete -o filename -F _filedir_xspec file"</span> &gt;&gt; ~/.bash_profile</div><div class="line"><span class="built_in">echo</span> <span class="string">'export PATH="$HOME/bin:$&#123;PATH&#125;"'</span> &gt;&gt; ~/.bash_profile</div></pre></td></tr></table></figure>
-<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p>  <img src="http://wudaown.github.io/pic/chsdir/chsdir.gif" alt="chsdir"></p>
-<p>那些神奇的地方就是按tab的结果。</p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/31/2015-07-31-mac-chsdir/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -586,8 +578,7 @@
 
       
         
-          
-            <h3 id="故事"><a href="#故事" class="headerlink" title="故事"></a>故事</h3><p>故事是这样的，邮箱里有很多很多很古老的短信，通话记录和以前学校的一些项目邮件。</p>
+          <h3 id="故事"><a href="#故事" class="headerlink" title="故事"></a>故事</h3><p>故事是这样的，邮箱里有很多很多很古老的短信，通话记录和以前学校的一些项目邮件。</p>
 <p>留着也没有什么用处了，删除了又可惜如果那天需要呢。</p>
 <p>于是就像全部备份到本地算了。</p>
 <h3 id="寻找"><a href="#寻找" class="headerlink" title="寻找"></a>寻找</h3><p>下一步就是想办法备份啦，第一个想到的就是用brew搜索一下啦</p>
@@ -596,25 +587,13 @@
 <p>返回了三个结果</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install gmail-backup</div></pre></td></tr></table></figure>
 <p>中间省去一万字，应该是一个过期的项目了，不能用。</p>
-<p>在省去一万字，找到了<a href="http://gmvault.org/" target="_blank" rel="external">gmvault</a></p>
+<p>在省去一万字，找到了<a href="http://gmvault.org/">gmvault</a></p>
 <p>brew里面已经收录了 ，那接下来就简单了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install gmvault</div></pre></td></tr></table></figure>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>这里就简单指出几个我使用的，具体可以查询<a href="http://gmvault.org/in_depth.html#indepth" target="_blank" rel="external">gmvault documentation</a></p>
-<p>首先是完整的备份。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gmvault sync username@gmail.com</div></pre></td></tr></table></figure>
-<p>然后是指定标签备份，这个更有用处。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gmvault sync --type custom --gmail-req <span class="string">'in:tags'</span> <span class="string">'username@gmail.com'</span> -c no</div></pre></td></tr></table></figure>
-<p>‘in:tags’ 中的tags就是标签，默认会备份在$HOME/gmvault-db目录下</p>
-<p>接下来说一下转换成mbox文件吧</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gmvault <span class="built_in">export</span> ~/mbox-dir</div></pre></td></tr></table></figure>
-<p>这样就可以把备份下来的右键转换成mbox文件保存了，不然的话邮件默认是eml文件形式的，我就不说第一次备份下来硬盘多了N多文件的事情了。</p>
-<p>转换完，突然想到mbox格式打开查询太不方便了，于是呢，就想到把刚才备份的右键全部保存到另外一个gmail里去算了，方便查询。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gmvault restore <span class="_">-d</span> ~/gmvault-db username_backup@gmail.com</div></pre></td></tr></table></figure>
-<p>这样就把整个数据库全部上传啦！当然只想上传某lable也是做得到的</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gmvault restore --lable <span class="string">'label'</span> <span class="_">-d</span> ~/gmvault-db username_backup@gmail.com</div></pre></td></tr></table></figure>
-<p>是不是简单又方便呢！</p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/31/2015-07-31-gmvault-backup-gmail/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -731,18 +710,12 @@
 
       
         
-          
-            <p>故事是这样的，有一大批漫画，总之很多很多。因为下载的时候文件夹很混乱，都是某文件夹内才是正确的命名。于是呢，就要进去几层文件夹然后在移动出去，手动的话太慢了，于是想了想打开bpython，开始操作。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> shutil</div><div class="line">all = os.popen(<span class="string">'ls'</span>).readlines()</div><div class="line"></div><div class="line">command = []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> all:</div><div class="line">	command.append(<span class="string">'file \''</span>+i[:<span class="number">-1</span>]+<span class="string">'\''</span>)</div><div class="line"></div><div class="line">result = []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> command:</div><div class="line">	result.append(os.popen(i).readline())</div><div class="line">	</div><div class="line">filter_one = []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> result:</div><div class="line">	<span class="keyword">if</span> <span class="string">'dir'</span> <span class="keyword">in</span> i:</div><div class="line">		filter_one.append(i)</div><div class="line">		</div><div class="line"><span class="comment">#filter_two = []</span></div><div class="line"><span class="comment">#for i in filter_one:</span></div><div class="line"><span class="comment">#	if i[0].isnumeric() == True:</span></div><div class="line"><span class="comment">#		filter_two.append(i)</span></div><div class="line"></div><div class="line">directory = []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> filter_one:</div><div class="line">	directory.append(i.split(<span class="string">':'</span>)[<span class="number">0</span>])</div><div class="line"></div><div class="line"><span class="keyword">del</span> all</div><div class="line"><span class="keyword">del</span> command</div><div class="line"><span class="keyword">del</span> result</div><div class="line"><span class="keyword">del</span> filter_one</div><div class="line"><span class="comment">#del filter_two</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> directory:</div><div class="line">	os.chdir(<span class="string">'/Volumes/SHARED/漫画/'</span>+i)</div><div class="line">	<span class="keyword">if</span> (<span class="string">'jpg'</span> <span class="keyword">in</span> os.popen(<span class="string">'ls'</span>).readline()) == <span class="keyword">True</span>:</div><div class="line">		<span class="keyword">pass</span></div><div class="line">	<span class="keyword">else</span>:</div><div class="line">	<span class="keyword">while</span> (<span class="string">'jpg'</span> <span class="keyword">in</span> os.popen(<span class="string">'ls'</span>).readline()) == <span class="keyword">False</span>:</div><div class="line">		os.chdir(os.popen(<span class="string">'ls'</span>).readline()[:<span class="number">-1</span>])</div><div class="line">		os.chdir(<span class="string">'..'</span>)</div><div class="line">		shutil.move(os.popen(<span class="string">'ls'</span>).readline()[:<span class="number">-1</span>],<span class="string">'/Volumes/SHARED/漫画'</span>)</div><div class="line">		shutil.rmtree(<span class="string">'/Volumes/SHARED/漫画'</span>+i)</div><div class="line">		chdir(<span class="string">'/Volumes/SHARED/漫画'</span>)</div><div class="line">		<span class="keyword">break</span></div><div class="line">	<span class="comment">#else:</span></div><div class="line">	<span class="comment">#	os.chdir(os.popen('ls').readline()[:-1])</span></div><div class="line">	<span class="comment">#	if 'jpg' in os.popen('ls').readline() == False:</span></div><div class="line">	<span class="comment">#		os.chdir(os.popen('ls').readline()[:-1])</span></div><div class="line">	<span class="comment">#		if 'jpg' in os.popen('ls').readline() == False:</span></div><div class="line">	<span class="comment">#			os.chdir(os.popen('ls').readline()[:-1])</span></div><div class="line">	<span class="comment">#			if 'jpg' in os.popen('ls').readline() == False:</span></div><div class="line">	<span class="comment">#				os.chdir(os.popen('ls').readline()[:-1])</span></div><div class="line">	<span class="comment">#			else:</span></div><div class="line">	<span class="comment">#				os.chdir('..')</span></div><div class="line">	<span class="comment">#				shutil.move(os.popen('ls').readline()[:-1],'/Volumes/SHARED/漫画')</span></div><div class="line">	<span class="comment">#		else:</span></div><div class="line">	<span class="comment">#				os.chdir('..')</span></div><div class="line">	<span class="comment">#				shutil.move(os.popen('ls').readline()[:-1],'/Volumes/SHARED/漫画')</span></div><div class="line">	<span class="comment">#	else:</span></div><div class="line">	<span class="comment">#		os.chdir('..')</span></div><div class="line">	<span class="comment">#		shutil.move(os.popen('ls').readline()[:-1],'/Volumes/SHARED/漫画')</span></div></pre></td></tr></table></figure>
-<p>通过上面的脚本，基本上文件夹是处理好了，下一步自然就是打包成zip然后用漫画阅读器打开咯~~</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line">all = os.popen(<span class="string">'ls'</span>).readlines()</div><div class="line">directory = []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> all:</div><div class="line">	directory.append(i[:<span class="number">-1</span>])</div><div class="line"></div><div class="line"><span class="keyword">del</span> all</div><div class="line"></div><div class="line">command = []</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> directory:</div><div class="line">	command.append(<span class="string">'zip -r -m \''</span>+i+<span class="string">'.zip\''</span>+<span class="string">' \''</span>+i+<span class="string">'\''</span>)</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> command:</div><div class="line">	os.system(i)</div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">zip -r -m filename.zip filename</div><div class="line"><span class="comment"># -r 是 recursive 把文件夹下的所有东西都打包</span></div><div class="line"><span class="comment"># -m 是打包完之后删除原文件</span></div></pre></td></tr></table></figure>
-<hr>
-<p>要搬家了，最近周末都在整理东西，已经丢掉很多很多包装盒了。</p>
-<p>下一步是把一些坏掉的设备修好，ipod啦</p>
-<p>一个rj11接口的黑轴键盘改成GH60</p>
-
-          
+          <p>故事是这样的，有一大批漫画，总之很多很多。因为下载的时候文件夹很混乱，都是某文件夹内才是正确的命名。于是呢，就要进去几层文件夹然后在移动出去，手动的话太慢了，于是想了想打开bpython，开始操作。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/24/2015-07-24-python-dir-zip/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -859,26 +832,16 @@
 
       
         
-          
-            <p>上周又和老板去买了一台E5的服务器..</p>
+          <p>上周又和老板去买了一台E5的服务器..</p>
 <p>配的是超微的双路主板x10drl-i.. 32G内存标配..<br>无盘和一些小东西做完之后闲的无聊.. 于是果断开虚拟机安装linux然后做远程.. </p>
 <p>反正配置够用..</p>
 <p>先试用了的微软自家的Hyper-v虚拟技术.. 怎么说呢.. 对Arch这种发行版的支持实在是.. 差的不行.. 连正常的关机都做不到应该没有集成包..</p>
 <p><img src="http://wudaown.github.io/pic/server/server_spec.png" alt="img"></p>
-<p>微软果然吭.. 安装了Virtualbox之后看不到64位系统的安装选项.. 第一反应是bios的vt-x和vt-d没有开.. 重启进bios都是开着的.. =_=#</p>
-<p>PS:为什么服务器的板子开机自检时间这么长… 好长好长的说..</p>
-<p>开机一看还是没有.. 想了一下.. 是不是虚拟技术被hyper-v用掉了.. 果断在角色里把hyper-v删除掉.. 重启.. </p>
-<p>世界清静了.. </p>
-<p><img src="http://wudaown.github.io/pic/server/server_vm.png" alt="img"></p>
-<p><strong>最后我总结了一下要在windows下用virtualbox安装64位系统有三个条件</strong></p>
-<p><strong>1、 vt-x 要打开</strong></p>
-<p><strong>2、 vt-d要打开</strong></p>
-<p><strong>3、 hyper-v一定要关掉</strong></p>
-<p><strong>3、 hyper-v一定要关掉</strong></p>
-<p><strong>3、 hyper-v一定要关掉</strong></p>
-<p>重要的话要说三遍….</p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/17/2015-07-17-08r2vm/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>

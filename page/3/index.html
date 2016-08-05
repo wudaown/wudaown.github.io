@@ -322,23 +322,18 @@
 
       
         
-          
-            <p>Windows 64位安装 pyquery</p>
+          <p>Windows 64位安装 pyquery</p>
 <p>上次的爬虫写完之后，需要一个yunfile网盘的下载器.. 于是开始写..<br>过程不表.. 代码也暂时不贴.. 因为还没有完善..</p>
 <p>在Mac下写的代码.. Mac写测试也是完全可用.. </p>
 <p><em>可是</em> 刚高兴没多久拿到windows安装依赖包就出现问题了…</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python -m pip install pyquery</div></pre></td></tr></table></figure>
 <p>马上就出现问题了好嘛！！</p>
 <p>总结一下就是lxml包装不上.. 需要visual c++ 10.0 的编译器.. 然后这个版本没有64为的编译器.. 然后虽然有解决方案 不过超级麻烦啊…….</p>
-<p>最后还是找到了事先编译好的lxml的whl包..</p>
-<p><a href="http://www.lfd.uci.edu/~gohlke/pythonlibs" target="_blank" rel="external">http://www.lfd.uci.edu/~gohlke/pythonlibs</a></p>
-<p>yy-cpxx-none-win_amd64.whl</p>
-<p>其中yy是包名字xx是对应的python版本.. </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">easy_install pyquery</div></pre></td></tr></table></figure>
-<p>这样就顺利安装了.. </p>
-<p>PS:Mac下我都是用bpython的.. windows下的bpython有点问题 于是ipython也超好用的~~</p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/05/2015-07-05-windows-pyquery/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -455,8 +450,7 @@
 
       
         
-          
-            <p>Python 爬虫基础</p>
+          <p>Python 爬虫基础</p>
 <p><s>闲来无事又开始作死了…</s></p>
 <p>当然不是.. 某天想从某站批量下载一些图片.. google了一分钟果断没有内容.. 想了一下一直听说python爬虫.. 那就自己写吧 </p>
 <p>当然最后没有成功</p>
@@ -464,36 +458,11 @@
 <p>主要用到下面三个模块</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> urllib.request</div><div class="line"><span class="keyword">import</span> urllib.parse</div><div class="line"><span class="keyword">import</span> re</div></pre></td></tr></table></figure>
 <p>这里记录一下常用的对象</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">data = &#123;<span class="string">'username'</span> : <span class="string">'wudaown'</span>,<span class="string">'passwd'</span> :<span class="string">'password'</span>,<span class="string">'token'</span>:<span class="string">'some token'</span>&#125;</div><div class="line"></div><div class="line">parsedata = urllib.parse.urlencode(data)</div><div class="line"></div><div class="line"><span class="string">'passwd=password&amp;username=wudaown&amp;token=some+token'</span></div></pre></td></tr></table></figure>
-<p>urllib.parse.urlencode对象主要是把输入的内容转为我们日常浏览器读取的内容 .. 最好是用字典来实现存储内容</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">ask_tag</span><span class="params">()</span>:</span></div><div class="line">    word = &#123;&#125;</div><div class="line">    word[<span class="string">'key'</span>] = input(<span class="string">"输入关键字： "</span>)  <span class="comment"># 用字典保存tag</span></div><div class="line">    keyword = <span class="string">"?tags"</span></div><div class="line">    url = <span class="string">"https://yande.re/post"</span></div><div class="line">    search_word = urllib.parse.urlencode(word)  <span class="comment"># parse tag形成网页需要的格式</span></div><div class="line">    search_word = search_word[<span class="number">3</span>:]</div><div class="line">    full_url = url + keyword + search_word</div><div class="line">    <span class="keyword">return</span> full_url  <span class="comment"># 返回对应的网页 url 后面会用到</span></div></pre></td></tr></table></figure>
-<p> 上面这段代码就是这样一个列子</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">url = <span class="string">'https://yande.re/post'</span></div><div class="line"></div><div class="line">url_html = urllib.request.urlopen(url).read()</div><div class="line"></div><div class="line">type(url_html)</div><div class="line"></div><div class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">bytes</span>'&gt;</span></div></pre></td></tr></table></figure>
-<p>urllib.request.urlopen对象就是打开网页啦.. 一般返回的结果是bytes貌似没有什么用 .. </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">url_html = urllib.request.urlopen(url).read().decode(<span class="string">'utf-8'</span>)</div><div class="line"></div><div class="line">type(url_html)</div><div class="line"></div><div class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">str</span>'&gt;</span></div></pre></td></tr></table></figure>
-<p>所以一般我都是这样用.. 转一下码变成字串符</p>
-<p>当然一些网站不能使用utf-8编码.. 这个时候就要使用相应语言的编码了..</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">url = 'http://www.quanji.cc/Zuixinmeiju/SDJTGDEJ/'</div><div class="line"></div><div class="line">url_html = urllib.request.urlopen(url).read().decode('utf-8')</div><div class="line">Traceback (most recent call last):</div><div class="line">  File "&lt;input&gt;", line 1, in &lt;module&gt;</div><div class="line">UnicodeDecodeError: 'utf-8' codec can't decode byte 0xa1 in position 209: invali</div><div class="line">d start byte</div><div class="line"></div><div class="line">url_html = urllib.request.urlopen(url).read().decode('gbk')</div></pre></td></tr></table></figure>
-<p>上面这段代码就演示了中文页面的一个情况</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getSource</span><span class="params">(source)</span>:</span>  <span class="comment"># pass url得到网页html源码</span></div><div class="line">    url = urllib.request.urlopen(source).read().decode(<span class="string">'utf-8'</span>)</div><div class="line">    <span class="keyword">return</span> url</div></pre></td></tr></table></figure>
-<p>这里我在写代码的时候偷懒了.. 一句话也要打包一下..</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">name = <span class="string">'Konachan.com%20-%20190779%20ayano_keiko%20glasses%20kirigaya_kazuto%20kirigaya_suguha%20leafa%20lisbeth%20seifuku%20shinon_%28sao%29%20sword_art_online%20tagme%20yuuki_asuna%20yuuki_tatsuya.png'</span></div><div class="line"></div><div class="line">filename = urllib.request.unquote(name)</div></pre></td></tr></table></figure>
-<p>上面提到使用urllib.parse.urlencode去把我们需要的内容编码成浏览器需要的格式..<br>那当然也能把浏览器中<s>反人类</s>各种字串符返回成原有的样子..</p>
-<p>这里就是通过urllib.request.unquote对象实现的 .. 这里推荐延伸阅读一下..</p>
-<p><a href="https://docs.python.org/3.4/library/urllib.parse.html#urllib.parse.unquote" target="_blank" rel="external">21.8. urllib.parse — Parse URLs into components</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">correct_filename</span><span class="params">(dLink)</span>:</span>  <span class="comment"># correct_filename 函数 读取图片直连 经过修改保留图片名字</span></div><div class="line">    filename_list = []</div><div class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> dLink:  <span class="comment"># 这里说一下 一开始通过正则表达式结果有部分图片直连不标准</span></div><div class="line">        temp = urllib.request.unquote(x)  <span class="comment"># 导致后面index out of range</span></div><div class="line">        filename_list.append(temp[<span class="number">70</span>:])  <span class="comment"># 最后还是通过unquote</span></div><div class="line">        <span class="comment"># filename_list.append(temp[74:-2])  # 最后还是通过unquote</span></div><div class="line">    <span class="keyword">return</span> filename_list</div></pre></td></tr></table></figure>
-<p>上面这段代码就是我用来还原文件名字的.. </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">file_link = "https://yt-dl.org/downloads/2015.06.15/youtube-dl-2015.06.15.ta</div><div class="line">r.gz"</div><div class="line"></div><div class="line">urllib.request.urlretrieve(file_link,'youtune-dl.tar.gz')</div><div class="line">('youtune-dl.tar.gz', &lt;http.client.HTTPMessage object at 0x106676320&gt;)</div></pre></td></tr></table></figure>
-<p>urllib.request.urlretrieve对象就是从指定url获取文件了.. 返回对象是 http.client.HTTPMessage.. 感兴趣的朋友可以多阅读…</p>
-<p><a href="https://docs.python.org/3/library/http.client.html" target="_blank" rel="external">http.client.HTTPMessage</a></p>
-<p>最后附上我撸的两个爬虫..</p>
-<p><a href="https://github.com/wudaown/yandeDL" target="_blank" rel="external">yandeDL</a></p>
-<p><a href="https://github.com/wudaown/konachanDL" target="_blank" rel="external">konachanDL</a></p>
-<blockquote>
-<p>下篇说说正则表达.. 感觉更重要</p>
-</blockquote>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/25/2015-06-25-python-crawler/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -610,21 +579,14 @@
 
       
         
-          
-            <h1 id="作为一个Medic实习的几天"><a href="#作为一个Medic实习的几天" class="headerlink" title="作为一个Medic实习的几天"></a>作为一个Medic实习的几天</h1><p>在部队被分配成了Medic.. 嘛.. 既然能学习新的知识那我就欣然接受了..<br>训练当然还是各种辛苦.. 毕竟是部队而不是学院什么的..</p>
+          <h1 id="作为一个Medic实习的几天"><a href="#作为一个Medic实习的几天" class="headerlink" title="作为一个Medic实习的几天"></a>作为一个Medic实习的几天</h1><p>在部队被分配成了Medic.. 嘛.. 既然能学习新的知识那我就欣然接受了..<br>训练当然还是各种辛苦.. 毕竟是部队而不是学院什么的..</p>
 <p>嘛.. 训练11月底基本结束了.. 于是部队把我们这群人丢到了救护车和医院去实习几天咯 ..<br>感触良多啊.. 接触到了很多的病患.. 每个人都有着各种不同的病症.. 也有车祸.. 跳楼等事件发生.. </p>
 <h3 id="救护车的几天"><a href="#救护车的几天" class="headerlink" title="救护车的几天"></a>救护车的几天</h3><p>基于职业素质这一点我就没有拍任何照片了.. 跟着救护车到处跑的几天.. 让我认识到了.. Medic所学的知识在和平时期对于多数的患者其实是无能为力的.. 我们更多的是给与病人和家属一种精神上的支持.. <strong><em>病人、患者、伤者在疼痛</em></strong>的时候他们会显得非常的不知所措… 而我们就是用最快的速度赶到现场给予支援.. </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">我举个例子吧！</div><div class="line">下午接到电话，病人是一名年迈的老人，在上楼的时候从楼梯摔下，后脑着地。</div><div class="line">地面有非常多的血，老人出现头晕和呕吐等现象。在老人家属不知所措时，我们赶到了现场，作为急救人员我们并没有任何诊断老人的方法，只是在老人的家人面前尽量的保持冷静并以最快且专业的方式替老人进行了包扎。</div><div class="line">这就是所有我们能做的事情了，可是明显能从老人家属的眼中看出安心的感觉。</div></pre></td></tr></table></figure>
-<h3 id="医院的几天"><a href="#医院的几天" class="headerlink" title="医院的几天"></a>医院的几天</h3><p>跟完了救护车下一个地方自然是医院了.. 在那里看到了各种手术.. 第一次接触的我来说.. 其实是非常的血腥和不适的..<br>为了能为患者从肺中插入一根管子以便呼吸，医生要切开他的胸口。真实的场景和我想象中的实在是差了太多了。</p>
-<p>帮助医生吊盐水，为医生做简单的手术准备，为病人打疫苗，替医生观察病危的伤者的生命体征等等。<br>在医院也学了很多，一些简单的、基础的诊断知识。</p>
-<p>更认识到了医生和护士是一个非常辛苦的行业 （最起码从我观察的几天来看 新加坡的确实是… -_-##</p>
-<h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>跟着救护车的第一天我在生病，当然是感冒发烧等。<br>去的早上又下大雨，而且我偷懒没有带雨伞于是又是在雨中逗留了很久，结果报道的时候已经非常严重了。<br>可是实在 不想错过这个难得的机会，于是在救护车上自己给自己吊了两瓶盐水，有给自己配了很多的药。</p>
-<p><strong>结果完全没有效果啊！！！！！</strong></p>
-<p><img src="http://wudaown.github.io/pic/medic_attachment/IMG_0020.JPG" alt="img"></p>
-<p><img src="http://wudaown.github.io/pic/medic_attachment/IMG_0019.JPG" alt="img"></p>
-<p><img src="http://wudaown.github.io/pic/medic_attachment/IMG_0018.JPG" alt="img"></p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/12/05/2014-12-05-media_attachment/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -741,31 +703,16 @@
 
       
         
-          
-            <p>#AMD HD7950 刷 efi</p>
+          <p>#AMD HD7950 刷 efi</p>
 <p>原来Mac Pro的显卡是GT120.. 多古老就不用我多说了吧..<br>自从换了27寸的Apple LED Display之后就感觉各种卡..</p>
 <p>去SIM LIM问了一下熟悉的老黑Mac版本的7950开价$565新币… 太坑了.. 翻阅各种资料之后决定自己买一张公版的7950自己刷efi来实现开机的boot screen..<br>现在各种N卡和A卡都已经原生支持了.. 唯一缺的就是开机的boot screen而已.. 作为完美主义者 （+_+#) .. 当然是要实现的啦.. </p>
 <p>等了大概10天左右显卡终于从国内飘到新加坡了… 对了对了.. 一起来的还有两个定制的线..<br>Mac Pro的显卡电源线是小6pin转接6pin或者8pin的.. 新加坡买不到小6pin的头不然自己做了.. 6pin的头倒是还剩下很多.. </p>
 <p><img src="http://wudaown.github.io/pic/HD7950/IMG_0002.JPG" alt="img"></p>
-<p><img src="http://wudaown.github.io/pic/HD7950/IMG_0009.JPG" alt="img"></p>
-<p><img src="http://wudaown.github.io/pic/HD7950/IMG_0010.JPG" alt="img"></p>
-<p>插上显卡… 开机点亮了.. 如预料的没有 <strong>boot screen</strong> …</p>
-<p>嘛.. 先不管了.. 重启进入bootcamp的WIN7备份一下显卡的bios ..<br>结果各种黑屏.. 好吧想到了WIN7的驱动是GT120的.. 于是换上GT120进入windows卸载nvidia显卡驱动..安装AMD催化剂咯… </p>
-<p>再插上HD7950进入系统鸟.. 很开心啦 .. @_@+ ..</p>
-<p><img src="http://wudaown.github.io/pic/HD7950/7950_switch.gif" alt="img"></p>
-<p>然后备份显卡的bios.. 这里说一下因为显卡支持UEFI的bios所有有一个1档和2档的开关于是就有了两个bios.. 建议都备份一下</p>
-<p><img src="http://wudaown.github.io/pic/HD7950/IMG_0005.JPG" alt="img"><br>这里就是开关了..<br>准备工作都做完了.. </p>
-<p>进入Mac系统.. 运行EFI ROM的制作工具.. </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./makerom.sh --efifile=7950mac.efi --romfile=efiromheader.rom --originalrom=Tahiti_7950_switch2.rom --devid=679a</div></pre></td></tr></table></figure>
-<p><a href="http://wudaown.github.io/download/mac_efi_create.zip" target="_blank" rel="external">mac_efi_create.zip</a></p>
-<p>然后大家看README吧.. 里面写的很清楚鸟..<br>制作完ROM之后就是最后的步骤啦.. <strong><em>刷！！！</em></strong></p>
-<p>进入windows打开<strong>ATI WINFLASH</strong> ..<br>载入ROM.. 刷 .. 保存.. 重启.. <strong>祈祷！！</strong></p>
-<p>最后就变成这样啦.. </p>
-<p><img src="http://wudaown.github.io/pic/HD7950/sys_profile.png" alt="img"></p>
-<p>写在最后.. 刷bios有风险.. 很有可能把显卡刷成砖.. 我的建议是各位买公版的7950原因是蓝宝石Mac版的7950的设计和公版的非常非常接近.. PCB等等.. </p>
-<p>PS:公版的7950加上国际运费加上两根定制线的一共是$190新币左右.. 如果买蓝宝石Mac版本的7950花费大概在$560++ .. </p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/11/15/2014-11-15-7950_flash_efi/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>

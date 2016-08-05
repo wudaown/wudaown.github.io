@@ -102,7 +102,7 @@
 写完之后总结一下最简单的爬虫就是利用了urllib模块和正则表达来实现的..
 主要用到下面三个模块
 123import urllib.requestimport urllib.parseimpo">
-<meta property="og:updated_time" content="2016-08-05T07:43:24.000Z">
+<meta property="og:updated_time" content="2016-08-05T09:11:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python 爬虫">
 <meta name="twitter:description" content="Python 爬虫基础
@@ -343,6 +343,7 @@
 <p>主要用到下面三个模块</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> urllib.request</div><div class="line"><span class="keyword">import</span> urllib.parse</div><div class="line"><span class="keyword">import</span> re</div></pre></td></tr></table></figure>
 <p>这里记录一下常用的对象</p>
+<a id="more"></a>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">data = &#123;<span class="string">'username'</span> : <span class="string">'wudaown'</span>,<span class="string">'passwd'</span> :<span class="string">'password'</span>,<span class="string">'token'</span>:<span class="string">'some token'</span>&#125;</div><div class="line"></div><div class="line">parsedata = urllib.parse.urlencode(data)</div><div class="line"></div><div class="line"><span class="string">'passwd=password&amp;username=wudaown&amp;token=some+token'</span></div></pre></td></tr></table></figure>
 <p>urllib.parse.urlencode对象主要是把输入的内容转为我们日常浏览器读取的内容 .. 最好是用字典来实现存储内容</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">ask_tag</span><span class="params">()</span>:</span></div><div class="line">    word = &#123;&#125;</div><div class="line">    word[<span class="string">'key'</span>] = input(<span class="string">"输入关键字： "</span>)  <span class="comment"># 用字典保存tag</span></div><div class="line">    keyword = <span class="string">"?tags"</span></div><div class="line">    url = <span class="string">"https://yande.re/post"</span></div><div class="line">    search_word = urllib.parse.urlencode(word)  <span class="comment"># parse tag形成网页需要的格式</span></div><div class="line">    search_word = search_word[<span class="number">3</span>:]</div><div class="line">    full_url = url + keyword + search_word</div><div class="line">    <span class="keyword">return</span> full_url  <span class="comment"># 返回对应的网页 url 后面会用到</span></div></pre></td></tr></table></figure>

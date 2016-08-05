@@ -101,7 +101,7 @@
 下面就介绍过程吧
 依赖关系 Update 2015-08-01昨天忘记说了">
 <meta property="og:image" content="http://wudaown.github.io/pic/chsdir/chsdir.gif">
-<meta property="og:updated_time" content="2016-08-05T07:41:25.000Z">
+<meta property="og:updated_time" content="2016-08-05T09:10:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac安装chsdir 中文路径补全">
 <meta name="twitter:description" content="故事今天的故事是这样的。
@@ -340,6 +340,7 @@
 <p>今天往Macbook Pro上面装的时候遇到一些问题，还好台式Mac Pro有已经安装好的给我参考。</p>
 <p>下面就介绍过程吧</p>
 <h3 id="依赖关系-Update-2015-08-01"><a href="#依赖关系-Update-2015-08-01" class="headerlink" title="依赖关系 Update 2015-08-01"></a>依赖关系 Update 2015-08-01</h3><p>昨天忘记说了，改插件需要bash-completion支持，zsh的话也有相应的completion组件吧？</p>
+<a id="more"></a>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">brew install bash-completion</div><div class="line">brew install bash</div><div class="line">sudo mv /usr/<span class="built_in">local</span>/bin/bash /usr/<span class="built_in">local</span>/bin/bash.bak</div><div class="line">sudo ln <span class="_">-s</span> /usr/<span class="built_in">local</span>/Cellar/bash/version/bash /usr/<span class="built_in">local</span>/bin/bash</div></pre></td></tr></table></figure>
 <p>除了bash-completion之外，也需要安装新的bash，Mac自带的bash和completion不起作用。</p>
 <h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><p>首先先下载，我不知道那年改过那里的文件。</p>
