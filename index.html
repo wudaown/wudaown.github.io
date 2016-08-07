@@ -332,8 +332,7 @@
 
       
         
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天正式搬到学校宿舍了，房间大概整理一下之后拿出电脑检查一下各种连接，ping一下店里直接就瞎了竟然不通。赶快打开VNC看一下，connection was closed remotely。各种openvpn,pptp和shadowsocks，全部都不通。简直了，试试看rdp到公司是可以的。ssh和scp也是可以的。</p>
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天正式搬到学校宿舍了，房间大概整理一下之后拿出电脑检查一下各种连接，ping一下店里直接就瞎了竟然不通。赶快打开VNC看一下，connection was closed remotely。各种openvpn,pptp和shadowsocks，全部都不通。简直了，试试看rdp到公司是可以的。ssh和scp也是可以的。</p>
 <p>瞬间明白了，肯定是防火墙策略搞的鬼。</p>
 <h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>按照上面的尝试，我觉得学校应该是把常用协议封锁掉了。瞬间有点想死的感觉，有觉得不对啊，要识别各种加密协议也不是那么容易的。会不会是封锁常用端口呢？把某kvm端口改成5905果然链接上了。</p>
 <p>那剩下就比较简单了，就是修改端口了。</p>
@@ -342,25 +341,11 @@
 <p>too young , too native</p>
 </blockquote>
 <p>改openvpn的端口改成3221，死活连接不上。想了一下可能是udp的关系。当然我是不会死心的，陆续又改了很多端口。全部不行。</p>
-<p>结论就是NTU把udp端口给切断了。</p>
-<p>那就把openvpn改成tcp端口吧，虽然没有那么安全不过能用要紧。</p>
-<p>呵呵！！</p>
-<p>还是不行，改了很多端口号还是不行。难道是针对openvpn把协议都封锁掉了？</p>
-<p>很有很能，想了一下把端口号改成873也就是rsync的端口号试试看，说不定能骗过去呢？</p>
-<p>终于成功了。</p>
-<p>都是斗智斗勇的过程，这里只能贴上配置文件了，这个是client配置。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">client</div><div class="line">cipher AES-256-CBC</div><div class="line">auth SHA256</div><div class="line">dev tun</div><div class="line">proto tcp</div><div class="line">remote x.x.x.x 873</div><div class="line">resolv-retry infinite</div><div class="line">nobind</div><div class="line">persist-key</div><div class="line">persist-tun</div><div class="line">remote-cert-tls server</div><div class="line">comp-lzo</div><div class="line">verb 3</div><div class="line">sndbuf 0</div><div class="line">rcvbuf 0</div></pre></td></tr></table></figure>
-<p>这个是server配置。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">port 873</div><div class="line">proto tcp</div><div class="line">dev tun</div><div class="line">ca ca.crt</div><div class="line">cert server.crt</div><div class="line">key server.key</div><div class="line">dh dh.pem</div><div class="line">push &quot;register-dns&quot;</div><div class="line">topology subnet</div><div class="line">server 10.9.0.0 255.255.255.0</div><div class="line">ifconfig-pool-persist ipp.txt</div><div class="line">cipher AES-256-CBC</div><div class="line">auth SHA256</div><div class="line">sndbuf 0</div><div class="line">rcvbuf 0</div><div class="line">push &quot;redirect-gateway def1 bypass-dhcp&quot;</div><div class="line">--tls-auth /etc/openvpn/easy-rsa/pki/private/ta.key 0</div><div class="line">push &quot;dhcp-option DNS 64.6.64.6&quot;</div><div class="line">push &quot;dhcp-option DNS 64.6.65.6&quot;</div><div class="line">keepalive 10 120</div><div class="line">comp-lzo</div><div class="line">persist-key</div><div class="line">persist-tun</div><div class="line">status openvpn-status.log</div><div class="line">verb 3</div><div class="line">crl-verify /etc/openvpn/easy-rsa/pki/crl.pem</div><div class="line">client-to-client</div></pre></td></tr></table></figure>
-<h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><p>结果我还是挺满意的，目前不能到店里把服务器的vnc端口改掉，还好vpn能直接接通内网。之后就仔细查查走tcp是不是能不被识别到吧。</p>
-<p>在学校上网，总感觉被监视了。还是走vpn安心一点。</p>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>ss在学校用不了，不是很清楚为什么。过几天把服务器上面的ss换成ssr试试看吧。</p>
-<p>要是搬到学校不能让我正常工作我就要疯了。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://openvpn.net/index.php/open-source/documentation/howto.html" target="_blank" rel="external">HOWTO OPENVPN</a></p>
-<p><a href="https://openvpn.net/archive/openvpn-users/2004-11/msg00468.html" target="_blank" rel="external">Anyone know how to detect OpenVPN traffic</a></p>
-<p><a href="http://forums.hardwarezone.com.sg/internet-bandwidth-networking-clinic-4/using-openvpn-tunnel-home-network-4878184.html" target="_blank" rel="external">Using openVPN to tunnel to home network</a></p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/08/07/ntu-network/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
