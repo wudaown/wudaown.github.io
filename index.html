@@ -467,7 +467,12 @@
       
         
           
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>服务器装好DNS服务器之后发现dns进程的内存占用超级高！高到不正常</p>
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>服务器装好DNS服务器之后发现dns进程的内存占用超级高！高到不正常。看了一下dns.exe进程的内存占用基本到了12-16GB。</p>
+<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><p>看进程的名字就知道和DNS服务有关了，因为要做AD域的关系DNS服务必须开启。上网转了一圈之后发现这个问题还挺普遍，仔细一看竟然是IPv6的问题的。</p>
+<p><a href="http://www.kozeniauskas.com/itblog/2011/05/11/dns-exe-high-memory-usage-in-server-2008-r2/" target="_blank" rel="external">dns.exe high memory usage in Server 2008 R2</a></p>
+<p>参考这篇文章，作者还是花了很多时间去了解的。</p>
+<p>微软也有想过的<a href="https://support.microsoft.com/en-sg/kb/929852" target="_blank" rel="external">KB929852</a></p>
+<h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><p>如果服务器是多线程的，并且IPv6不用的话，还是禁用掉吧</p>
 
           
         
