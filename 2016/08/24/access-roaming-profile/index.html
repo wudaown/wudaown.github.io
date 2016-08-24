@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="windows,域,server," />
 
 
 
@@ -84,15 +84,24 @@
 
 
 
-<meta name="description" content="以在家上班为目标">
-<meta property="og:type" content="website">
-<meta property="og:title" content="WDBLOG">
-<meta property="og:url" content="http://www.wdblog.xyz/archives/2015/page/2/index.html">
+<meta name="description" content="前言下午做检查的时候发现连接不上服务器了，感觉到不对劲。果然不到一分钟的时间电话来了被告知停电。由于交换机没有接入UPS，所以所有客户机和服务器的连接就断了，部分用户电脑也没有UPS导致直接关机。间接性导致部分配置文件没有被同步甚至丢失。
+过程起初以为是某些文件丢失了，并没有在意就说先关机我把该用户文件还原到早些时候。详见 Server 2008 R2文件备份杂记 中记录的卷影副本。
+然而还是没有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="获取用户漫游配置文件权限">
+<meta property="og:url" content="http://www.wdblog.xyz/2016/08/24/access-roaming-profile/index.html">
 <meta property="og:site_name" content="WDBLOG">
-<meta property="og:description" content="以在家上班为目标">
+<meta property="og:description" content="前言下午做检查的时候发现连接不上服务器了，感觉到不对劲。果然不到一分钟的时间电话来了被告知停电。由于交换机没有接入UPS，所以所有客户机和服务器的连接就断了，部分用户电脑也没有UPS导致直接关机。间接性导致部分配置文件没有被同步甚至丢失。
+过程起初以为是某些文件丢失了，并没有在意就说先关机我把该用户文件还原到早些时候。详见 Server 2008 R2文件备份杂记 中记录的卷影副本。
+然而还是没有">
+<meta property="og:image" content="http://i.imgur.com/bHyJErR.jpg">
+<meta property="og:updated_time" content="2016-08-24T07:42:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WDBLOG">
-<meta name="twitter:description" content="以在家上班为目标">
+<meta name="twitter:title" content="获取用户漫游配置文件权限">
+<meta name="twitter:description" content="前言下午做检查的时候发现连接不上服务器了，感觉到不对劲。果然不到一分钟的时间电话来了被告知停电。由于交换机没有接入UPS，所以所有客户机和服务器的连接就断了，部分用户电脑也没有UPS导致直接关机。间接性导致部分配置文件没有被同步甚至丢失。
+过程起初以为是某些文件丢失了，并没有在意就说先关机我把该用户文件还原到早些时候。详见 Server 2008 R2文件备份杂记 中记录的卷影副本。
+然而还是没有">
+<meta name="twitter:image" content="http://i.imgur.com/bHyJErR.jpg">
 
 
 
@@ -110,7 +119,7 @@
   };
 </script>
 
-  <title> 归档 | WDBLOG </title>
+  <title> 获取用户漫游配置文件权限 | WDBLOG </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -131,7 +140,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  page-archive  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -239,218 +248,143 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 21 篇日志。 继续努力。
-    </span>
-
+  <div id="posts" class="posts-expand">
     
-
-      
-      
-      
-
-      
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2015">2015</h2>
-        </div>
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2015/07/31/2015-07-31-gmvault-backup-gmail/" itemprop="url">
-              
-                <span itemprop="name">gmavult 备份 & 还原 Gmail</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-07-31T22:22:03+08:00"
-              content="2015-07-31" >
-          07-31
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2015/07/24/2015-07-24-python-dir-zip/" itemprop="url">
-              
-                <span itemprop="name">Python 批量移动文件夹 & 批量打包文件</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-07-24T19:26:02+08:00"
-              content="2015-07-24" >
-          07-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2015/07/17/2015-07-17-08r2vm/" itemprop="url">
-              
-                <span itemprop="name">Windows 08 R2 Virtualbox 64位系统</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-07-17T19:11:52+08:00"
-              content="2015-07-17" >
-          07-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2015/07/05/2015-07-05-windows-pyquery/" itemprop="url">
-              
-                <span itemprop="name">Windows 64位安装 pyquery</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-07-05T20:21:52+08:00"
-              content="2015-07-05" >
-          07-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2015/06/25/2015-06-25-python-crawler/" itemprop="url">
-              
-                <span itemprop="name">python 爬虫</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-06-25T11:52:52+08:00"
-              content="2015-06-25" >
-          06-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
 
   
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/2015/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/2015/">1</a><span class="page-number current">2</span>
-  </nav>
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                获取用户漫游配置文件权限
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T15:30:05+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/24/access-roaming-profile/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/24/access-roaming-profile/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
 
 
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>下午做检查的时候发现连接不上服务器了，感觉到不对劲。果然不到一分钟的时间电话来了被告知停电。由于交换机没有接入UPS，所以所有客户机和服务器的连接就断了，部分用户电脑也没有UPS导致直接关机。间接性导致部分配置文件没有被同步甚至丢失。</p>
+<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><p>起初以为是某些文件丢失了，并没有在意就说先关机我把该用户文件还原到早些时候。详见 <a href="http://wdblog.xyz/2016/08/04/server-back/" target="_blank" rel="external">Server 2008 R2文件备份杂记</a> 中记录的卷影副本。</p>
+<p>然而还是没有效果，这个时候我知道了肯定是profile文件丢失了。然而，因为对该文件夹没有权限的关系，我并没有备份也没有办法恢复。</p>
+<a id="more"></a>
+<p>默认GPO配置中是没有把用户配置文件的权限交给管理员的，可以看 <a href="http://wdblog.xyz/2016/08/04/server-back/" target="_blank" rel="external">Roaming Profile Folders Do Not Allow Administrative Access</a> 虽然文章中写的是Windows 2000可是在Windows 7中任然适用。</p>
+<p>并且在Windows 08R2中GPO位置已经改变。</p>
+<p><img src="http://i.imgur.com/bHyJErR.jpg" alt="GPO位置"></p>
+<p><strong>切记，这个GPO一定要在用户第一次登陆之前做好因为它不能对已有的profile.v2文件夹生效</strong></p>
+<p>所以，在这里我只有继续寻找其他方法获取现有profile.v2文件夹的权限了。</p>
+<h1 id="待续"><a href="#待续" class="headerlink" title="待续"></a>待续</h1><p>有看到一些脚本可以调整权限，不过要等大家下班之后我在慢慢试了。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://community.spiceworks.com/topic/287779-how-to-give-domain-admin-access-to-user-profile-folders" target="_blank" rel="external">how to give Domain Admin access to user profile folders</a></p>
+<p><a href="https://social.technet.microsoft.com/Forums/en-US/2e22bb50-9ab2-43a6-9f18-2f9bc88c7782/administrator-access-denied-to-roaming-profile-user-folders-in-server-2008?forum=winserverfiles" target="_blank" rel="external">Administrator Access Denied to Roaming Profile User Folders in Server 2008</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/windows/" rel="tag">#windows</a>
+          
+            <a href="/tags/域/" rel="tag">#域</a>
+          
+            <a href="/tags/server/" rel="tag">#server</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/20/fix-ti84/" rel="next" title="维修 TI-84 Plus Pocket SE">
+                <i class="fa fa-chevron-left"></i> 维修 TI-84 Plus Pocket SE
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -458,6 +392,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -477,8 +422,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://i.imgur.com/fMwQDsN.jpg"
@@ -548,6 +502,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#过程"><span class="nav-number">2.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#待续"><span class="nav-number">3.</span> <span class="nav-text">待续</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -651,11 +616,9 @@
 
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
 
 
   
@@ -673,9 +636,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'wudaown';
-      var disqus_identifier = 'archives/2015/page/2/index.html';
-      var disqus_title = '';
-      var disqus_url = '';
+      var disqus_identifier = '2016/08/24/access-roaming-profile/';
+      var disqus_title = '获取用户漫游配置文件权限';
+      var disqus_url = 'http://www.wdblog.xyz/2016/08/24/access-roaming-profile/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
@@ -686,6 +649,8 @@
       }
 
       run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
       
     </script>
   
