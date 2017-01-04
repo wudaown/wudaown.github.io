@@ -263,6 +263,130 @@
             
               
                 
+                <a class="post-title-link" href="/2017/01/04/idrac-update/" itemprop="url">
+                  iDrac更新固件
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-04T14:01:05+08:00" content="2017-01-04">
+              2017-01-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/04/idrac-update/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/04/idrac-update/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>服务器的远程Console用不了，打给Dell客服之后提示更新iDrac固件。更新完之后，内网打开处于空白界面，什么都看不到，外网访问正常。</p>
+<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><p>不是很明白为什么会导致这个问题，通过外网登陆iDRAC Web界面之后在Web Server设定中看到一个TLS选项。改成TLS1.0或者更高之后问题解决。</p>
+<h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><p>Windows Server 2008 R2 系统中使用的TLS协议应该是过低了，Google了一番之后确实找到了一个补丁。<a href="https://support.microsoft.com/en-us/kb/3140245" target="_blank" rel="external">Update to enable TLS 1.1 and TLS 1.2 as a default secure protocols in WinHTTP in Windows</a></p>
+<p>我直接在Web Server当中把TLS协议要求调低了。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://practicaladmin.wordpress.com/2016/11/03/idrac-firmware-2-40-40-introduces-new-tls-settings-may-stop-dell-ome-discoveryinventory/" target="_blank" rel="external">iDRAC Firmware 2.40.40 Introduces New TLS Settings, May Stop Dell OME Discovery/Inventory</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/15/new-hexo/" itemprop="url">
                   Hexo Blog 新机器迁移
                 </a>
@@ -720,136 +844,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/07/ntu-network/" itemprop="url">
-                  突破NTU网络限制
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-07T16:26:40+08:00" content="2016-08-07">
-              2016-08-07
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/网络/" itemprop="url" rel="index">
-                    <span itemprop="name">网络</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/07/ntu-network/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/07/ntu-network/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天正式搬到学校宿舍了，房间大概整理一下之后拿出电脑检查一下各种连接，ping一下店里直接就瞎了竟然不通。赶快打开VNC看一下，connection was closed remotely。各种openvpn,pptp和shadowsocks，全部都不通。简直了，试试看rdp到公司是可以的。ssh和scp也是可以的。</p>
-<p>瞬间明白了，肯定是防火墙策略搞的鬼。</p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>按照上面的尝试，我觉得学校应该是把常用协议封锁掉了。瞬间有点想死的感觉，有觉得不对啊，要识别各种加密协议也不是那么容易的。会不会是封锁常用端口呢？把某kvm端口改成5905果然链接上了。</p>
-<p>那剩下就比较简单了，就是修改端口了。</p>
-<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><p>试试证明还是</p>
-<blockquote>
-<p>too young , too native</p>
-</blockquote>
-<p>改openvpn的端口改成3221，死活连接不上。想了一下可能是udp的关系。当然我是不会死心的，陆续又改了很多端口。全部不行。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/07/ntu-network/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -895,7 +889,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">23</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -912,7 +906,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
