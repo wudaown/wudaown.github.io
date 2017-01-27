@@ -263,6 +263,131 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/10/disable-ipv6/" itemprop="url">
+                  Server 08 R2 禁用 IPv6
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-10T22:31:46+08:00" content="2016-08-10">
+              2016-08-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/10/disable-ipv6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/10/disable-ipv6/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>服务器装好DNS服务器之后发现dns进程的内存占用超级高！高到不正常。看了一下dns.exe进程的内存占用基本到了12-16GB。</p>
+<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><p>看进程的名字就知道和DNS服务有关了，因为要做AD域的关系DNS服务必须开启。上网转了一圈之后发现这个问题还挺普遍，仔细一看竟然是IPv6的问题的。</p>
+<p><a href="http://www.kozeniauskas.com/itblog/2011/05/11/dns-exe-high-memory-usage-in-server-2008-r2/" target="_blank" rel="external">dns.exe high memory usage in Server 2008 R2</a></p>
+<p>参考这篇文章，作者还是花了很多时间去了解的。</p>
+<p>微软也有想过的<a href="https://support.microsoft.com/en-sg/kb/929852" target="_blank" rel="external">KB929852</a></p>
+<h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><p>如果服务器是多线程的，并且IPv6不用的话，还是禁用掉吧</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/07/ntu-network/" itemprop="url">
                   突破NTU网络限制
                 </a>
@@ -754,130 +879,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/04/server-back/" itemprop="url">
-                  Server 2008 R2文件备份杂记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-04T21:35:29+08:00" content="2016-08-04">
-              2016-08-04
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/服务器/" itemprop="url" rel="index">
-                    <span itemprop="name">服务器</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/04/server-back/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/04/server-back/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Server-2008-R2文件备份杂记"><a href="#Server-2008-R2文件备份杂记" class="headerlink" title="Server 2008 R2文件备份杂记"></a>Server 2008 R2文件备份杂记</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>两周前公司某员工收到一封伪装成Fedex的邮件，里面包含<a href="http://www.enigmasoftware.com/nemucodransomware-removal/">nemucod</a>病毒的JS代码。因为所有文件都是储存在服务器上面的，直接导致了改员工账户所有可写文件被加密。此处省略一万字，总之文件是恢复过来了。上面也发话了，只好把准备年底在做的备份提前了。</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>因为公司所有文件都是在服务器上面的，所有备份量会比较大。并且之前也用过群辉的NAS，这次也就直接考虑入手群辉的NAS了。经过一番调查，DSM6.0支持经过btfs加持的Snapshot Replication和<a href="https://www.synology.com/zh-cn/dsm/6.0/data_backup">Hyper Backup</a>。</p>
-<p>两种方案都很好，深入阅读之后发现两种技术都是建立在对硬盘的区块进行还原的，也就是说并不适用于服务器上面的文件系统。不过我觉得问题不大，明年改其他电脑的时候顺便把资料移动到群辉上面再用上述方案吧。现在的话先用Windows Server Backup问题不大，把备份放在NAS上面就可以了。事实证明调查的不够彻底，被微软坑了，下面会详细说明。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/04/server-back/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -923,7 +924,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -931,7 +932,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -940,7 +941,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-count">50</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
