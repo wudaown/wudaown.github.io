@@ -1,0 +1,716 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="linux,arch,virtual desktop," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言经过一年在校，发现学校的环境还是离不开Windows，这一年当中除了访问学校的Xen Desktop之外就是在笔记本开Virtualbox．然而小米１２寸的笔记本性能本来就低通过virtualbox就更惨不忍睹了．趁着这次整理电脑干脆从硬件层面来跑虚拟机．
+过程准备操作系统还是Arch
+1sudo pacman -S qemu-headless virt-manager ebtables fi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qemu KVM 虚拟化">
+<meta property="og:url" content="http://www.wdblog.xyz/2017/05/08/qemu-kvm/index.html">
+<meta property="og:site_name" content="WDBLOG">
+<meta property="og:description" content="前言经过一年在校，发现学校的环境还是离不开Windows，这一年当中除了访问学校的Xen Desktop之外就是在笔记本开Virtualbox．然而小米１２寸的笔记本性能本来就低通过virtualbox就更惨不忍睹了．趁着这次整理电脑干脆从硬件层面来跑虚拟机．
+过程准备操作系统还是Arch
+1sudo pacman -S qemu-headless virt-manager ebtables fi">
+<meta property="og:image" content="http://wudaown.github.io/pic/qemu/config.png">
+<meta property="og:image" content="http://wudaown.github.io/pic/qemu/kvm.png">
+<meta property="og:updated_time" content="2017-05-08T15:16:41.170Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Qemu KVM 虚拟化">
+<meta name="twitter:description" content="前言经过一年在校，发现学校的环境还是离不开Windows，这一年当中除了访问学校的Xen Desktop之外就是在笔记本开Virtualbox．然而小米１２寸的笔记本性能本来就低通过virtualbox就更惨不忍睹了．趁着这次整理电脑干脆从硬件层面来跑虚拟机．
+过程准备操作系统还是Arch
+1sudo pacman -S qemu-headless virt-manager ebtables fi">
+<meta name="twitter:image" content="http://wudaown.github.io/pic/qemu/config.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Qemu KVM 虚拟化 | WDBLOG </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">WDBLOG</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/." rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-notes">
+          <a href="/notes" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sticky-note"></i> <br />
+            
+            便利贴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Qemu KVM 虚拟化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-08T22:12:17+08:00" content="2017-05-08">
+              2017-05-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/08/qemu-kvm/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/08/qemu-kvm/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>经过一年在校，发现学校的环境还是离不开Windows，这一年当中除了访问学校的Xen Desktop之外就是在笔记本开Virtualbox．然而小米１２寸的笔记本性能本来就低通过virtualbox就更惨不忍睹了．趁着这次整理电脑干脆从硬件层面来跑虚拟机．</p>
+<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>操作系统还是Arch</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo pacman -S qemu-headless virt-manager ebtables firewalld dnsmasq virglrenderer</div></pre></td></tr></table></figure>
+<p>安装所需要的包和组建</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">systemclt <span class="built_in">enable</span> libvirtd.service</div><div class="line">systemctl start libvirtd.service</div><div class="line">sudo virsh net-start default</div></pre></td></tr></table></figure>
+<p>不知道为什么默认的网卡没有像wiki中描述的那样启用，用virsh手动一下．</p>
+<p>硬件层面的虚拟化i还是用virtIO来达到较高的性能，windows需要的驱动可以从<a href="http://www.linux-kvm.org/page/WindowsGuestDrivers/Download_Drivers" target="_blank" rel="external">linux-kvm</a>下载．</p>
+<p>在打开virt-manager之前还是把用户添加到kvm组中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">usermod <span class="_">-a</span>G kvm username	</div><div class="line">su</div><div class="line">vim /etc/polkit-1/rules.d/49-nopasswd_limited.rules</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">/* 49-nopasswd_limited.rules</div><div class="line"> * Allow members of the wheel group to execute the defined actions</div><div class="line"> * without password authentication, similar to &quot;sudo NOPASSWD:&quot;</div><div class="line"> */</div><div class="line">polkit.addRule(function(action, subject) &#123;</div><div class="line">    if ((action.id == &quot;org.archlinux.pkexec.gparted&quot; ||</div><div class="line">         action.id == &quot;org.libvirt.unix.manage&quot;) &amp;&amp;</div><div class="line">        subject.isInGroup(&quot;wheel&quot;))</div><div class="line">    &#123;</div><div class="line">        return polkit.Result.YES;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>添加上述内容，这样就不用每次开virt-manager都输入密码了．</p>
+<h2 id="实际配置"><a href="#实际配置" class="headerlink" title="实际配置"></a>实际配置</h2><p><img src="http://wudaown.github.io/pic/qemu/config.png" alt="img"></p>
+<p>需要注意的地方有几个</p>
+<ul>
+<li>cpu可能需要复制主机CPU配置</li>
+<li>磁盘总线改成virtIO</li>
+<li>添加第二个光驱并且加载virtIO驱动盘</li>
+<li>显卡选择qxl性能较高</li>
+<li>声卡我选择删掉了</li>
+</ul>
+<p>一路安装，选硬盘的时候加载virtIO磁盘驱动</p>
+<p>安装完之后从<a href="https://www.spice-space.org/" target="_blank" rel="external">spice space</a>下载<a href="https://www.spice-space.org/download.html" target="_blank" rel="external">spice guests tools</a> 这个包会把qxl驱动安装上．</p>
+<h2 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h2><p>然后并没有测试性能， 我装好了等开学在用，windows是真的脱离我的日常生活了．Linux我用的非常开始，期待测试的就下次吧</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><h2 id="网卡自启"><a href="#网卡自启" class="headerlink" title="网卡自启"></a>网卡自启</h2><p>实际过程还有一些其他问题，不过我已经忘记了！唯一记得就是virbr0这个网卡死活不能自动启用，重启之后手动激活很讨厌．于是自己写了一个systemd的service企图实现开机自启．</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sudo vim /usr/lib/systemd/scripts/virbr0.sh</div><div class="line"></div><div class="line">#!/bin/bash</div><div class="line"># virbr0.sh</div><div class="line"></div><div class="line">virsh net-start default</div><div class="line"></div><div class="line">chmod +x /usr/lib/systemd/scripts/virbr0.sh</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/systemd/system/virbr0.service</div><div class="line"></div><div class="line">[Unit]</div><div class="line">Description=virbr0.service activite kvm network NIC</div><div class="line">Requires=network.target</div><div class="line">After=network.target</div><div class="line">After=libvirtd.service</div><div class="line"></div><div class="line">[Service]</div><div class="line">Type=idle</div><div class="line">ExecStart=/usr/lib/systemd/scripts/virbr0.sh</div><div class="line"></div><div class="line">[Install]</div><div class="line">WantedBy=multi-user.target</div></pre></td></tr></table></figure>
+<p>这里就比较坑了，首先我知道肯定是依赖libvirtd.service的，然后应该也需要network.target．然后因为是一次性启动一开始Type=simple，我是这么写的，死活启动不了．</p>
+<p>经过提醒，去查日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">journalctl -b -u virbr0</div><div class="line"></div><div class="line">-- Logs begin at Wed 2017-05-03 21:05:45 +08, end at Mon 2017-05-08 21:10:30 +08. --</div><div class="line">5月 08 21:10:21 wudaown-MiBook systemd[1]: Started activite kvm network NIC.</div><div class="line">5月 08 21:10:21 wudaown-MiBook virbr0.sh[506]: 错误：连接到管理程序失败</div><div class="line">5月 08 21:10:21 wudaown-MiBook virbr0.sh[506]: 错误：将插槽连接到 &apos;/var/run/libvirt/libvirt-sock&apos; 失败: 没有那个文件或目录</div><div class="line">5月 08 21:10:21 wudaown-MiBook systemd[1]: virbr0.service: Main process exited, code=exited, status=1/FAILURE</div><div class="line">5月 08 21:10:21 wudaown-MiBook systemd[1]: virbr0.service: Unit entered failed state.</div><div class="line">5月 08 21:10:21 wudaown-MiBook systemd[1]: virbr0.service: Failed with result &apos;exit-code&apos;.</div></pre></td></tr></table></figure>
+<p>瞎了，接口存在啊，那我只能判断是启动过早了，于是把Type改成idle作为最后执行成功了．</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[wudaown:~]-&gt;&gt;&gt; ls /var/run/libvirt</div><div class="line">hostdevmgr/  network/  storage/  uml-guest/           libvirt-sock=     virtlockd-sock=</div><div class="line">lxc/         qemu/     uml/      libvirt-admin-sock=  libvirt-sock-ro=  virtlogd-sock=</div></pre></td></tr></table></figure>
+<h2 id="USB-3-0-直通"><a href="#USB-3-0-直通" class="headerlink" title="USB 3.0 直通"></a>USB 3.0 直通</h2><p>USB 3.0 的设备直通不能通过redirect来操作，为什么请自行阅读．</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">[wudaown:/etc/systemd/system]-&gt;&gt;&gt; virt-host-validate</div><div class="line">  QEMU: 正在检查 for hardware virtualization                                 : PASS</div><div class="line">  QEMU: 正在检查 if device /dev/kvm exists                                   : PASS</div><div class="line">  QEMU: 正在检查 if device /dev/kvm is accessible                            : PASS</div><div class="line">  QEMU: 正在检查 if device /dev/vhost-net exists                             : PASS</div><div class="line">  QEMU: 正在检查 if device /dev/net/tun exists                               : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;memory&apos; controller support                      : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;memory&apos; controller mount-point                  : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;cpu&apos; controller support                         : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;cpu&apos; controller mount-point                     : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;cpuacct&apos; controller support                     : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;cpuacct&apos; controller mount-point                 : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;cpuset&apos; controller support                      : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;cpuset&apos; controller mount-point                  : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;devices&apos; controller support                     : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;devices&apos; controller mount-point                 : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;blkio&apos; controller support                       : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;blkio&apos; controller mount-point                   : PASS</div><div class="line">  QEMU: 正在检查 for device assignment IOMMU support                         : PASS</div><div class="line">  QEMU: 正在检查 if IOMMU is enabled by kernel                               : PASS</div><div class="line">   LXC: 正在检查 用于 Linux &gt;= 2.6.26                                      : PASS</div><div class="line">   LXC: 正在检查 for namespace ipc                                           : PASS</div><div class="line">   LXC: 正在检查 for namespace mnt                                           : PASS</div><div class="line">   LXC: 正在检查 for namespace pid                                           : PASS</div><div class="line">   LXC: 正在检查 for namespace uts                                           : PASS</div><div class="line">   LXC: 正在检查 for namespace net                                           : PASS</div><div class="line">   LXC: 正在检查 for namespace user                                          : WARN (User namespace support is recommended)</div><div class="line">   LXC: 正在检查 for cgroup &apos;memory&apos; controller support                      : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;memory&apos; controller mount-point                  : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;cpu&apos; controller support                         : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;cpu&apos; controller mount-point                     : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;cpuacct&apos; controller support                     : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;cpuacct&apos; controller mount-point                 : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;cpuset&apos; controller support                      : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;cpuset&apos; controller mount-point                  : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;devices&apos; controller support                     : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;devices&apos; controller mount-point                 : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;blkio&apos; controller support                       : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;blkio&apos; controller mount-point                   : PASS</div></pre></td></tr></table></figure>
+<p>必须通过总线IOMMU进去，于是在内核i启动参数加上intel_iommu=on</p>
+<p>上面的检查结果是开始之后的事情了，一开始是没有开启的．</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/default/grub</div><div class="line"></div><div class="line">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet resume=UUID=b822ea06-d61e-4336-acf0-d3c6b78961e6 intel_iommu=on&quot;</div><div class="line"></div><div class="line">grub-mkconfig -o /boot/grub/grub.cfg</div></pre></td></tr></table></figure>
+<p>最后附上效果图</p>
+<p><img src="http://wudaown.github.io/pic/qemu/kvm.png" alt="img"></p>
+<p>PS: 小米笔记本的BIOS里面没有开始VT-D的地方，不过应该是默认开启了．所以可以kvm虚拟化</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag">#linux</a>
+          
+            <a href="/tags/arch/" rel="tag">#arch</a>
+          
+            <a href="/tags/virtual-desktop/" rel="tag">#virtual desktop</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/28/xen-ntu/" rel="next" title="Linux NTU Citrix访问">
+                <i class="fa fa-chevron-left"></i> Linux NTU Citrix访问
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://i.imgur.com/fMwQDsN.jpg"
+               alt="wudaown" />
+          <p class="site-author-name" itemprop="name">wudaown</p>
+          <p class="site-description motion-element" itemprop="description">以在家上班为目标</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wudaown" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/wudaown" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#过程"><span class="nav-number">2.</span> <span class="nav-text">过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备"><span class="nav-number">2.1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实际配置"><span class="nav-number">2.2.</span> <span class="nav-text">实际配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能"><span class="nav-number">2.3.</span> <span class="nav-text">性能</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">3.</span> <span class="nav-text">后记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#网卡自启"><span class="nav-number">3.1.</span> <span class="nav-text">网卡自启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#USB-3-0-直通"><span class="nav-number">3.2.</span> <span class="nav-text">USB 3.0 直通</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wudaown</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'wudaown';
+      var disqus_identifier = '2017/05/08/qemu-kvm/';
+      var disqus_title = 'Qemu KVM 虚拟化';
+      var disqus_url = 'http://www.wdblog.xyz/2017/05/08/qemu-kvm/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

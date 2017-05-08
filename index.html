@@ -263,6 +263,164 @@
             
               
                 
+                <a class="post-title-link" href="/2017/05/08/qemu-kvm/" itemprop="url">
+                  Qemu KVM 虚拟化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-08T22:12:17+08:00" content="2017-05-08">
+              2017-05-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/08/qemu-kvm/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/08/qemu-kvm/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>经过一年在校，发现学校的环境还是离不开Windows，这一年当中除了访问学校的Xen Desktop之外就是在笔记本开Virtualbox．然而小米１２寸的笔记本性能本来就低通过virtualbox就更惨不忍睹了．趁着这次整理电脑干脆从硬件层面来跑虚拟机．</p>
+<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>操作系统还是Arch</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo pacman -S qemu-headless virt-manager ebtables firewalld dnsmasq virglrenderer</div></pre></td></tr></table></figure>
+<p>安装所需要的包和组建</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">systemclt <span class="built_in">enable</span> libvirtd.service</div><div class="line">systemctl start libvirtd.service</div><div class="line">sudo virsh net-start default</div></pre></td></tr></table></figure>
+<p>不知道为什么默认的网卡没有像wiki中描述的那样启用，用virsh手动一下．</p>
+<p>硬件层面的虚拟化i还是用virtIO来达到较高的性能，windows需要的驱动可以从<a href="http://www.linux-kvm.org/page/WindowsGuestDrivers/Download_Drivers" target="_blank" rel="external">linux-kvm</a>下载．</p>
+<p>在打开virt-manager之前还是把用户添加到kvm组中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">usermod <span class="_">-a</span>G kvm username	</div><div class="line">su</div><div class="line">vim /etc/polkit-1/rules.d/49-nopasswd_limited.rules</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">/* 49-nopasswd_limited.rules</div><div class="line"> * Allow members of the wheel group to execute the defined actions</div><div class="line"> * without password authentication, similar to &quot;sudo NOPASSWD:&quot;</div><div class="line"> */</div><div class="line">polkit.addRule(function(action, subject) &#123;</div><div class="line">    if ((action.id == &quot;org.archlinux.pkexec.gparted&quot; ||</div><div class="line">         action.id == &quot;org.libvirt.unix.manage&quot;) &amp;&amp;</div><div class="line">        subject.isInGroup(&quot;wheel&quot;))</div><div class="line">    &#123;</div><div class="line">        return polkit.Result.YES;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>添加上述内容，这样就不用每次开virt-manager都输入密码了．</p>
+<h2 id="实际配置"><a href="#实际配置" class="headerlink" title="实际配置"></a>实际配置</h2><p><img src="http://wudaown.github.io/pic/qemu/config.png" alt="img"></p>
+<p>需要注意的地方有几个</p>
+<ul>
+<li>cpu可能需要复制主机CPU配置</li>
+<li>磁盘总线改成virtIO</li>
+<li>添加第二个光驱并且加载virtIO驱动盘</li>
+<li>显卡选择qxl性能较高</li>
+<li>声卡我选择删掉了</li>
+</ul>
+<p>一路安装，选硬盘的时候加载virtIO磁盘驱动</p>
+<p>安装完之后从<a href="https://www.spice-space.org/" target="_blank" rel="external">spice space</a>下载<a href="https://www.spice-space.org/download.html" target="_blank" rel="external">spice guests tools</a> 这个包会把qxl驱动安装上．</p>
+<h2 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h2><p>然后并没有测试性能， 我装好了等开学在用，windows是真的脱离我的日常生活了．Linux我用的非常开始，期待测试的就下次吧</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><h2 id="网卡自启"><a href="#网卡自启" class="headerlink" title="网卡自启"></a>网卡自启</h2><p>实际过程还有一些其他问题，不过我已经忘记了！唯一记得就是virbr0这个网卡死活不能自动启用，重启之后手动激活很讨厌．于是自己写了一个systemd的service企图实现开机自启．</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sudo vim /usr/lib/systemd/scripts/virbr0.sh</div><div class="line"></div><div class="line">#!/bin/bash</div><div class="line"># virbr0.sh</div><div class="line"></div><div class="line">virsh net-start default</div><div class="line"></div><div class="line">chmod +x /usr/lib/systemd/scripts/virbr0.sh</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/systemd/system/virbr0.service</div><div class="line"></div><div class="line">[Unit]</div><div class="line">Description=virbr0.service activite kvm network NIC</div><div class="line">Requires=network.target</div><div class="line">After=network.target</div><div class="line">After=libvirtd.service</div><div class="line"></div><div class="line">[Service]</div><div class="line">Type=idle</div><div class="line">ExecStart=/usr/lib/systemd/scripts/virbr0.sh</div><div class="line"></div><div class="line">[Install]</div><div class="line">WantedBy=multi-user.target</div></pre></td></tr></table></figure>
+<p>这里就比较坑了，首先我知道肯定是依赖libvirtd.service的，然后应该也需要network.target．然后因为是一次性启动一开始Type=simple，我是这么写的，死活启动不了．</p>
+<p>经过提醒，去查日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">journalctl -b -u virbr0</div><div class="line"></div><div class="line">-- Logs begin at Wed 2017-05-03 21:05:45 +08, end at Mon 2017-05-08 21:10:30 +08. --</div><div class="line">5月 08 21:10:21 wudaown-MiBook systemd[1]: Started activite kvm network NIC.</div><div class="line">5月 08 21:10:21 wudaown-MiBook virbr0.sh[506]: 错误：连接到管理程序失败</div><div class="line">5月 08 21:10:21 wudaown-MiBook virbr0.sh[506]: 错误：将插槽连接到 &apos;/var/run/libvirt/libvirt-sock&apos; 失败: 没有那个文件或目录</div><div class="line">5月 08 21:10:21 wudaown-MiBook systemd[1]: virbr0.service: Main process exited, code=exited, status=1/FAILURE</div><div class="line">5月 08 21:10:21 wudaown-MiBook systemd[1]: virbr0.service: Unit entered failed state.</div><div class="line">5月 08 21:10:21 wudaown-MiBook systemd[1]: virbr0.service: Failed with result &apos;exit-code&apos;.</div></pre></td></tr></table></figure>
+<p>瞎了，接口存在啊，那我只能判断是启动过早了，于是把Type改成idle作为最后执行成功了．</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[wudaown:~]-&gt;&gt;&gt; ls /var/run/libvirt</div><div class="line">hostdevmgr/  network/  storage/  uml-guest/           libvirt-sock=     virtlockd-sock=</div><div class="line">lxc/         qemu/     uml/      libvirt-admin-sock=  libvirt-sock-ro=  virtlogd-sock=</div></pre></td></tr></table></figure>
+<h2 id="USB-3-0-直通"><a href="#USB-3-0-直通" class="headerlink" title="USB 3.0 直通"></a>USB 3.0 直通</h2><p>USB 3.0 的设备直通不能通过redirect来操作，为什么请自行阅读．</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">[wudaown:/etc/systemd/system]-&gt;&gt;&gt; virt-host-validate</div><div class="line">  QEMU: 正在检查 for hardware virtualization                                 : PASS</div><div class="line">  QEMU: 正在检查 if device /dev/kvm exists                                   : PASS</div><div class="line">  QEMU: 正在检查 if device /dev/kvm is accessible                            : PASS</div><div class="line">  QEMU: 正在检查 if device /dev/vhost-net exists                             : PASS</div><div class="line">  QEMU: 正在检查 if device /dev/net/tun exists                               : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;memory&apos; controller support                      : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;memory&apos; controller mount-point                  : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;cpu&apos; controller support                         : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;cpu&apos; controller mount-point                     : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;cpuacct&apos; controller support                     : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;cpuacct&apos; controller mount-point                 : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;cpuset&apos; controller support                      : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;cpuset&apos; controller mount-point                  : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;devices&apos; controller support                     : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;devices&apos; controller mount-point                 : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;blkio&apos; controller support                       : PASS</div><div class="line">  QEMU: 正在检查 for cgroup &apos;blkio&apos; controller mount-point                   : PASS</div><div class="line">  QEMU: 正在检查 for device assignment IOMMU support                         : PASS</div><div class="line">  QEMU: 正在检查 if IOMMU is enabled by kernel                               : PASS</div><div class="line">   LXC: 正在检查 用于 Linux &gt;= 2.6.26                                      : PASS</div><div class="line">   LXC: 正在检查 for namespace ipc                                           : PASS</div><div class="line">   LXC: 正在检查 for namespace mnt                                           : PASS</div><div class="line">   LXC: 正在检查 for namespace pid                                           : PASS</div><div class="line">   LXC: 正在检查 for namespace uts                                           : PASS</div><div class="line">   LXC: 正在检查 for namespace net                                           : PASS</div><div class="line">   LXC: 正在检查 for namespace user                                          : WARN (User namespace support is recommended)</div><div class="line">   LXC: 正在检查 for cgroup &apos;memory&apos; controller support                      : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;memory&apos; controller mount-point                  : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;cpu&apos; controller support                         : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;cpu&apos; controller mount-point                     : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;cpuacct&apos; controller support                     : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;cpuacct&apos; controller mount-point                 : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;cpuset&apos; controller support                      : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;cpuset&apos; controller mount-point                  : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;devices&apos; controller support                     : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;devices&apos; controller mount-point                 : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;blkio&apos; controller support                       : PASS</div><div class="line">   LXC: 正在检查 for cgroup &apos;blkio&apos; controller mount-point                   : PASS</div></pre></td></tr></table></figure>
+<p>必须通过总线IOMMU进去，于是在内核i启动参数加上intel_iommu=on</p>
+<p>上面的检查结果是开始之后的事情了，一开始是没有开启的．</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/default/grub</div><div class="line"></div><div class="line">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet resume=UUID=b822ea06-d61e-4336-acf0-d3c6b78961e6 intel_iommu=on&quot;</div><div class="line"></div><div class="line">grub-mkconfig -o /boot/grub/grub.cfg</div></pre></td></tr></table></figure>
+<p>最后附上效果图</p>
+<p><img src="http://wudaown.github.io/pic/qemu/kvm.png" alt="img"></p>
+<p>PS: 小米笔记本的BIOS里面没有开始VT-D的地方，不过应该是默认开启了．所以可以kvm虚拟化</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/01/28/xen-ntu/" itemprop="url">
                   Linux NTU Citrix访问
                 </a>
@@ -727,132 +885,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/20/fix-ti84/" itemprop="url">
-                  维修 TI-84 Plus Pocket SE
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-20T20:29:47+08:00" content="2016-08-20">
-              2016-08-20
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/维修/" itemprop="url" rel="index">
-                    <span itemprop="name">维修</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/20/fix-ti84/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/20/fix-ti84/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>开学前就把高中用的计算器翻出来了，结果自然是打不开，天真的以为是电池没电了。</p>
-<p>呵呵…</p>
-<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><p>带到学校换了电池还是打不开，有把ram电池换掉了。（一颗LR44）换了之后自然是打不开的，怀疑是接触不良就用铅笔在看得到的地方涂鸦去了！</p>
-<p>还是时好时坏的，80%的时候是打不开的，周五早上更是一直没打开过。怀疑是主板有电放虚焊了，没有带工具的我昨天晚上拿回家打开一看简直吓人。</p>
-<p>电池和主板供电的接触的地方完全氧化了，绿的蓝的，反正肯定是没办法供电了。天真如我就拿起螺丝刀把氧化物给刮干净了！</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/20/fix-ti84/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -898,7 +930,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -915,7 +947,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
