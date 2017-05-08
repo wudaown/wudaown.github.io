@@ -96,7 +96,7 @@
 1sudo pacman -S qemu-headless virt-manager ebtables fi">
 <meta property="og:image" content="http://wudaown.github.io/pic/qemu/config.png">
 <meta property="og:image" content="http://wudaown.github.io/pic/qemu/kvm.png">
-<meta property="og:updated_time" content="2017-05-08T15:16:41.170Z">
+<meta property="og:updated_time" content="2017-05-08T15:25:56.535Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Qemu KVM 虚拟化">
 <meta name="twitter:description" content="前言经过一年在校，发现学校的环境还是离不开Windows，这一年当中除了访问学校的Xen Desktop之外就是在笔记本开Virtualbox．然而小米１２寸的笔记本性能本来就低通过virtualbox就更惨不忍睹了．趁着这次整理电脑干脆从硬件层面来跑虚拟机．
@@ -343,6 +343,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">systemclt <span class="built_in">enable</span> libvirtd.service</div><div class="line">systemctl start libvirtd.service</div><div class="line">sudo virsh net-start default</div></pre></td></tr></table></figure>
 <p>不知道为什么默认的网卡没有像wiki中描述的那样启用，用virsh手动一下．</p>
 <p>硬件层面的虚拟化i还是用virtIO来达到较高的性能，windows需要的驱动可以从<a href="http://www.linux-kvm.org/page/WindowsGuestDrivers/Download_Drivers" target="_blank" rel="external">linux-kvm</a>下载．</p>
+<a id="more"></a>
 <p>在打开virt-manager之前还是把用户添加到kvm组中</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">usermod <span class="_">-a</span>G kvm username	</div><div class="line">su</div><div class="line">vim /etc/polkit-1/rules.d/49-nopasswd_limited.rules</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">/* 49-nopasswd_limited.rules</div><div class="line"> * Allow members of the wheel group to execute the defined actions</div><div class="line"> * without password authentication, similar to &quot;sudo NOPASSWD:&quot;</div><div class="line"> */</div><div class="line">polkit.addRule(function(action, subject) &#123;</div><div class="line">    if ((action.id == &quot;org.archlinux.pkexec.gparted&quot; ||</div><div class="line">         action.id == &quot;org.libvirt.unix.manage&quot;) &amp;&amp;</div><div class="line">        subject.isInGroup(&quot;wheel&quot;))</div><div class="line">    &#123;</div><div class="line">        return polkit.Result.YES;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
@@ -375,6 +376,13 @@
 <p>最后附上效果图</p>
 <p><img src="http://wudaown.github.io/pic/qemu/kvm.png" alt="img"></p>
 <p>PS: 小米笔记本的BIOS里面没有开始VT-D的地方，不过应该是默认开启了．所以可以kvm虚拟化</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.kraxel.org/blog/2016/09/using-virtio-gpu-with-libvirt-and-spice/" target="_blank" rel="external">Using virtio-gpu with libvirt and spice</a></p>
+<p><a href="https://moozing.wordpress.com/2012/11/30/windows-7-in-qemukvm/" target="_blank" rel="external">Windows 7 in QEMU/KVM</a></p>
+<p><a href="https://www.segfault.digital/it/general/kvm-and-windows-vms/" target="_blank" rel="external">KVM and Windows VMs</a></p>
+<p><a href="https://wiki.gentoo.org/wiki/QEMU/Windows_guest" target="_blank" rel="external">QEMU/Windows guest Gentoo Wiki</a></p>
+<p><a href="https://wiki.gentoo.org/wiki/QEMU/Options#Graphics_card" target="_blank" rel="external">QEMU/Options Gentoo Wiki</a></p>
+<p><a href="https://bbs.archlinux.org/viewtopic.php?id=161200" target="_blank" rel="external">SOLVED QEMU Improve graphics performance/resolution</a></p>
+<p><a href="http://cromwell-intl.com/linux/openbsd-qemu-windows-howto.html" target="_blank" rel="external">How to Install and Run Windows Within the QEMU Emulator on an OpenBSD or Linux Desktop</a></p>
 
       
     </div>
@@ -556,7 +564,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#过程"><span class="nav-number">2.</span> <span class="nav-text">过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备"><span class="nav-number">2.1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实际配置"><span class="nav-number">2.2.</span> <span class="nav-text">实际配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能"><span class="nav-number">2.3.</span> <span class="nav-text">性能</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">3.</span> <span class="nav-text">后记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#网卡自启"><span class="nav-number">3.1.</span> <span class="nav-text">网卡自启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#USB-3-0-直通"><span class="nav-number">3.2.</span> <span class="nav-text">USB 3.0 直通</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#过程"><span class="nav-number">2.</span> <span class="nav-text">过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备"><span class="nav-number">2.1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实际配置"><span class="nav-number">2.2.</span> <span class="nav-text">实际配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能"><span class="nav-number">2.3.</span> <span class="nav-text">性能</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">3.</span> <span class="nav-text">后记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#网卡自启"><span class="nav-number">3.1.</span> <span class="nav-text">网卡自启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#USB-3-0-直通"><span class="nav-number">3.2.</span> <span class="nav-text">USB 3.0 直通</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
           </div>
         </section>
